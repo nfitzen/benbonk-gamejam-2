@@ -1,0 +1,15 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Placeholder
+Upstream-Contact: Nathaniel Fitzenrider <https://github.com/nfitzen>
+Source: https://github.com/nfitzen/benbonk-gamejam-2
+License: GPL-3.0-or-later
+
+# Sample paragraph, commented out:
+#
+# Files: src/*
+# Copyright: $YEAR $NAME <$CONTACT>
+# License: ...
+
+Files: *
+Copyright: 2020 Henry Schneider, Kai Hoop, and Nathaniel Fitzenrider
+License: GPL-3.0-or-later
