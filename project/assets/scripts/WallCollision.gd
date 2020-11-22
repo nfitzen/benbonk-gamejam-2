@@ -10,6 +10,7 @@ func _ready():
 
 # Expects a 2D Boolean array
 func create_bodies(walls):
+    var y_offset = ($"../WallRenderer".textureSize.y-$"../WallRenderer".size-$"../WallRenderer".bottomBuffer)
     var offset = Vector2(-walls.size()/2, 1-walls.size()/2)
     for x in range(len(walls)):
         var br = []
@@ -19,6 +20,7 @@ func create_bodies(walls):
                 br.append(body)
                 add_child(body)
                 body.position += (Vector2(x, y) + offset) * size
+                body.position.y+=y_offset
             else:
                 br.append(null)
         static_bodies.append(br)

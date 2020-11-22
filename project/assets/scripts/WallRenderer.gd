@@ -8,6 +8,7 @@ var newwalls : Array = [];
 var walldiff : Array = [];
 var walltypes : Array = [];
 var wallproxs : Array = [];
+const z_multiplier = 16;
 const size = 16
 const bottomBuffer = 8
 const textureSize : Vector2 = Vector2(size,48)
@@ -46,7 +47,7 @@ func gen_basic(x_size, y_size):
             if(x>4&&x<12&&y>5&&y<9):
                 w[x].append(0)
             else:
-                if(x>3&&x<13&&y>4&&y<10):
+                if(x>2&&x<14&&y>3&&y<11):
                     w[x].append(randi()%2)
                 else:
                     w[x].append(1)
@@ -99,7 +100,7 @@ func _process(delta):
         if(drawTime>0.43):
             for x in walls.size():
                 for y in walls[0].size():
-                    if(walldiff[x][y]!=0):
+                    if(walldiff[x][y]==1 || (walldiff[x][y]==-1&&walls[x][y+1]==0&&newwalls[x][y+1]==0)):
                         var i = square_dust.instance()
                         i.position.x = (x-walls.size()/2)*textureSize.x
                         i.position.y = (y-walls[0].size()/2)*textureSize.x+(textureSize.y-size-bottomBuffer)*((walldiff[x][y]-1)/(0-2))
@@ -132,7 +133,11 @@ func _set_texture(value):
     texture = value #texture was changed
     update() # update the node
 
-func draw_floor(x, y, screenrect, alpha=1.0):
+func draw_floor(x, y, screenrect, alpha=1.0, use_z=false):
+    #if(!use_z):
+    #    z_index = -1
+    #else:
+    #   z_index = (y-walls[0].size()/2)*z_multiplier
     if(alpha>1.0): alpha = 1.0
     if(alpha<0.0): alpha = 0.0
     # Rendering floors
@@ -257,6 +262,7 @@ func draw_floor(x, y, screenrect, alpha=1.0):
                 texture.draw_rect_region(get_canvas_item(), screenrect, texturerect3, shadowcolor)
                             
 func draw_wall(x, y, screenrect, alpha=1.0):
+    #z_index = (y-walls[0].size()/2)*z_multiplier+100
     if(alpha>1.0): alpha = 1.0
     if(alpha<0.0): alpha = 0.0
     #side of da walls
@@ -379,7 +385,7 @@ func _draw():
                     screenrect.position.y+=(textureSize.y-size-bottomBuffer)
                     draw_wall(x,y,screenrect,1-drawHeight)
                     screenrect.position.y-=(textureSize.y-size-bottomBuffer)
-                    draw_floor(x,y,screenrect,1-drawHeight)
+                    draw_floor(x,y,screenrect,1-drawHeight,true)
                     drawHeight = 1-drawHeight
                     screenrect.position.y+=(textureSize.y-size-bottomBuffer)
                     draw_wall(x,y,screenrect,1-drawHeight)
@@ -388,7 +394,7 @@ func _draw():
                     drawHeight = 1-drawHeight
                     draw_wall(x,y,screenrect,1-drawHeight)
                     screenrect.position.y-=(textureSize.y-size-bottomBuffer)
-                    draw_floor(x,y,screenrect,1-drawHeight)
+                    draw_floor(x,y,screenrect,1-drawHeight,true)
                     screenrect.position.y+=(textureSize.y-size-bottomBuffer)
                     drawHeight = 1-drawHeight
                     draw_wall(x,y,screenrect,1-drawHeight)
