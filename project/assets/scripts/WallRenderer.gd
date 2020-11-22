@@ -172,6 +172,7 @@ func _draw():
                     #var texturerect = Rect2((walltypes[x][y]+4)*size,size*2,textureSize.x,textureSize.y)
                     #texture.draw_rect_region(get_canvas_item(), screenrect, texturerect)
             if(walls[x][y]==1):
+                #side of da walls
                 screenrect.position.y+=size
                 var texturerect2 = Rect2((walltypes[x][y]+3)*size,size*3,textureSize.x,textureSize.y)
                 if(x>0&&x<walls.size()-1&&y>0&&y<walls[0].size()-1):
@@ -183,10 +184,23 @@ func _draw():
                     elif(walls[x+1][y+1]==1):
                         texturerect2 = Rect2(size,size*3,textureSize.x,textureSize.y)
                 texture.draw_rect_region(get_canvas_item(), screenrect, texturerect2)
-                screenrect.position.y-=size
+                if(x>0&&x<walls.size()-1&&y>0&&y<walls[0].size()-1):
+                    screenrect.size.x=textureSize.x*0.5
+                    screenrect.size.y=textureSize.y-textureSize.x
+                    var texturerect2b
+                    if(walls[x-1][y]==0):
+                        texturerect2b = Rect2(textureSize.x*8,size*3,textureSize.x*0.5,textureSize.y-textureSize.x)
+                        texture.draw_rect_region(get_canvas_item(), screenrect, texturerect2b)
+                    if(walls[x+1][y]==0):
+                        texturerect2b = Rect2(textureSize.x*8.5,size*3,textureSize.x*0.5,textureSize.y-textureSize.x)
+                        screenrect.position.x+=textureSize.x*0.5
+                        texture.draw_rect_region(get_canvas_item(), screenrect, texturerect2b)
+                        screenrect.position.x-=textureSize.x*0.5
+                    screenrect.size.x=textureSize.x
                 
                 
                 # THE TOP OF THE WALLS 
+                screenrect.position.y-=size
                 if(wallproxs[x][y]==2):
                     var texturerect1 = Rect2(walltypes[x][y]*size,size*(2-wallproxs[x][y]),textureSize.x,textureSize.x)
                     screenrect.size.x=textureSize.x
