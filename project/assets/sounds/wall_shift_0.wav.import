@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/wall_shift_0.wav-721b290eb67cd11082712eba28029852.sample"
+
+[deps]
+
+source_file="res://assets/sounds/wall_shift_0.wav"
+dest_files=[ "res://.import/wall_shift_0.wav-721b290eb67cd11082712eba28029852.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
