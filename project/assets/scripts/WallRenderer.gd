@@ -1,7 +1,7 @@
 extends Node2D
 
 export (Texture) var texture setget _set_texture
-export (PackedScene) var square_dust
+export (Array, PackedScene) var square_dust
 export (Array, AudioStream) var sounds
 var walls : Array = [];
 var newwalls : Array = [];
@@ -105,7 +105,7 @@ func _process(delta):
             for x in walls.size():
                 for y in walls[0].size():
                     if(walldiff[x][y]==1 || (walldiff[x][y]==-1&&walls[x][y+1]==0&&newwalls[x][y+1]==0)):
-                        var i = square_dust.instance()
+                        var i = square_dust[(walldiff[x][y]+1)/2].instance()
                         i.position.x = (x-walls.size()/2)*textureSize.x
                         i.position.y = (y-walls[0].size()/2)*textureSize.x+(textureSize.y-size-bottomBuffer)*((walldiff[x][y]-1)/(0-2))
                         for child in i.get_children():
