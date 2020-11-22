@@ -8,28 +8,39 @@ var wallproxs : Array = [];
 const size = 16
 const bottomBuffer = 8
 const textureSize : Vector2 = Vector2(size,48)
+var drawShadows : bool = true
 
 func populate(x_size, y_size):
-    for x in x_size:
-        walls.append([])
-        for y in y_size:
-            if(x>4&&x<12&&y>5&&y<11):
-                walls[x].append(0)
-            else:
-                if(x>3&&x<13&&y>4&&y<12):
-                    walls[x].append(randi()%2)
-                else:
-                    walls[x].append(1)
-    for x in x_size:
-        walltypes.append([])
-        for y in y_size:
-            walltypes[x].append(randi()%4)
-    for x in x_size:
-        wallproxs.append([])
-        for y in y_size:
-            wallproxs[x].append(0)
-            
+    var r : Array
+    r = gen_basic(x_size,y_size)
+    walls = r[0]
+    walltypes = r[1]
+    wallproxs = r[2]
     recalc_prox()
+
+func gen_basic(x_size, y_size):
+    var w : Array = []
+    var wt : Array = []
+    var wp : Array = []
+    for x in x_size:
+        w.append([])
+        for y in y_size:
+            if(x>4&&x<12&&y>5&&y<9):
+                w[x].append(0)
+            else:
+                if(x>3&&x<13&&y>4&&y<10):
+                    w[x].append(randi()%2)
+                else:
+                    w[x].append(1)
+    for x in x_size:
+        wt.append([])
+        for y in y_size:
+            wt[x].append(randi()%4)
+    for x in x_size:
+        wp.append([])
+        for y in y_size:
+            wp[x].append(0)
+    return [w,wt,wp]
 
 func recalc_prox():
     for x in wallproxs.size():
@@ -171,6 +182,16 @@ func _draw():
                     texture.draw_rect_region(get_canvas_item(), screenrect, texturerect1d)
                     #var texturerect = Rect2((walltypes[x][y]+4)*size,size*2,textureSize.x,textureSize.y)
                     #texture.draw_rect_region(get_canvas_item(), screenrect, texturerect)
+                    if(drawShadows):
+                        if(walls[x+1][y]==1):
+                            var length : float = textureSize.x*0.75
+                            screenrect.position.x-=length-textureSize.x*0.5
+                            screenrect.position.y-=textureSize.x/2
+                            screenrect.size.x = length
+                            screenrect.size.y = textureSize.x
+                            var texturerect3 = Rect2(textureSize.x*9,textureSize.x*3,1,1)
+                            var shadowcolor = Color(1.0,1.0,1.0,0.4)
+                            texture.draw_rect_region(get_canvas_item(), screenrect, texturerect3, shadowcolor)
             if(walls[x][y]==1):
                 #side of da walls
                 screenrect.position.y+=size
