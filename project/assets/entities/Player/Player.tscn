@@ -2,7 +2,6 @@
 
 [ext_resource path="res://assets/sprites/heart tileset.png" type="Texture" id=1]
 [ext_resource path="res://assets/entities/Player/Player.gd" type="Script" id=2]
-[ext_resource path="res://assets/entities/Player/Camera.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 5, 5 )
@@ -17,6 +16,3 @@ region_rect = Rect2( 30, 0, 20, 20 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
-
-[node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource( 3 )

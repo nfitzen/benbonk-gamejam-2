@@ -4,12 +4,14 @@
 
 extends KinematicBody2D
 
-export var speed = 50
-var direction = 0
+export var speed = 75.0
+var direction = 0.0
 export var maxHealth = 4
 
-export var dashLength = 120
-export var dashSpeed = 75
+export var dashLength = 120.0
+export var dashSpeed = 200.0
+export var dashCooldownAir = 3
+export var dashCooldownWall = 6
 var dashing = false
 var dashVector : Vector2
 var dashVelocity : Vector2
@@ -21,20 +23,28 @@ var dashTime : float
 var remainingDashLen : float
 var dashDirection : Vector2
 
+var dashCooldown = 0
+
 
 func _process(delta):
     velocity = Vector2.ZERO
+    if dashCooldown > 0:
+        dashCooldown -= delta
     if dashing:
+        # print(dashDelta)
         dashDelta += delta
         remainingDashLen -= dashSpeed * delta
         if dashDelta < dashTime:
             move_and_slide(dashVelocity)
         elif get_slide_count() == 0 and remainingDashLen < 0:
+            print(remainingDashLen)
             position = position + remainingDashLen * dashDirection
-        else:
+            dashCooldown = dashCooldownAir
             dashing = false
-
-    if(!dashing):
+        else:
+            dashCooldown = dashCooldownWall
+            dashing = false
+    else:
         if Input.is_action_pressed("right"):
             velocity += Vector2.RIGHT
         if Input.is_action_pressed("left"):
@@ -44,20 +54,15 @@ func _process(delta):
         if Input.is_action_pressed("up"):
             velocity += Vector2.UP
         if Input.is_action_just_pressed('dash'):
-            dash()
+            if dashCooldown <= 0:
+                dash()
         velocity = velocity.normalized() * speed
         if velocity.length() > 0:
             direction = fposmod(round(rad2deg(-velocity.angle())/45),8)
-            move_and_slide(velocity)
+        move_and_slide(velocity)
     #     sprite.animation = "walk"+str(direction)
     # else:
     #     sprite.animation = "idle"+str(direction)
-
-func _input(event):
-    if event is InputEventKey:
-        if event.pressed and event.scancode == KEY_C:
-            $"Camera2D".shakeAmount = 50
-
 
 func dash():
     dashing = true
@@ -66,3 +71,6 @@ func dash():
     dashVector = dashDirection * dashLength
     dashTime = dashLength / dashSpeed
     dashDelta = 0.0
+    remainingDashLen = dashLength
+    print(dashDirection, dashVelocity, dashVector)
+    print(dashTime)
