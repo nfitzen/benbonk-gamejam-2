@@ -35,6 +35,6 @@ func _process(delta):
     position += velocity
 
 func dash():
-    return 0
+    return
     dashing = true
     dashVector = (get_global_mouse_position() - get_global_position()).normalized() * dashLength
