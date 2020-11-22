@@ -4,7 +4,7 @@
 
 extends KinematicBody2D
 
-export var speed = 800
+export var speed = 50
 export var maxHealth = 4
 export var dashLength = 400
 var direction = 0
