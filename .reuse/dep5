@@ -14,10 +14,10 @@ Files: *
 Copyright: 2020 Henry Schneider, Kai Hoop, and Nathaniel Fitzenrider
 License: GPL-3.0-or-later
 
-Files: icon.png
-Copyright: (C) Andrea Calabró
+Files: project/icon.png
+Copyright: (C) Andrea Calabro
 License: CC-BY-3.0
 
-Files: git_api.gdnlib git_api.gdns
+Files: project/git_api.gdnlib project/git_api.gdns
 Copyright: 2016-2019 The Godot Engine community
 License: MIT
