@@ -10,7 +10,7 @@ License: GPL-3.0-or-later
 # Copyright: $YEAR $NAME <$CONTACT>
 # License: ...
 
-Files: *
+Files: project/*
 Copyright: 2020 Henry Schneider, Kai Hoop, and Nathaniel Fitzenrider
 License: GPL-3.0-or-later
 
