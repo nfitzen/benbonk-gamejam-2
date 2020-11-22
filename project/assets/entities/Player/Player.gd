@@ -26,13 +26,13 @@ func _process(delta):
             velocity += Vector2.UP
         if Input.is_action_just_pressed('dash'):
             dash()
-        velocity = velocity.normalized() * speed * delta
+        velocity = velocity.normalized() * speed
     if velocity.length() > 0:
         direction = fposmod(round(rad2deg(-velocity.angle())/45),8);
     #     sprite.animation = "walk"+str(direction)
     # else:
     #     sprite.animation = "idle"+str(direction)
-    position += velocity
+    move_and_slide(velocity)
 
 func dash():
     return
