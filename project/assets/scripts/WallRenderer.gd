@@ -1,7 +1,8 @@
 extends Node2D
 
 export (Texture) var texture setget _set_texture
-export () var square_dust
+export (PackedScene) var square_dust
+export (Array, AudioStream) var sounds
 var walls : Array = [];
 var newwalls : Array = [];
 var walldiff : Array = [];
@@ -15,12 +16,6 @@ var drawHeight : float = 0.0
 var drawTime : float = 0.0
 var swapping = false;
 var swapTime = 0.45;
-
-#.instance()
-#add_child(enemy)
-#
-#
-#
 
 func populate(x_size, y_size):
     var r : Array
@@ -94,13 +89,33 @@ func _ready():
 func _process(delta):
     if(Input.is_action_pressed("ui_left")):
         swapping = true;
+        $"Sound".stream = sounds[randi()%sounds.size()]
+        $"Sound".pitch_scale = 1.0+randf()*0.1
+        $"Sound".playing = true
         
     if(swapping):
         drawTime += delta
         drawHeight = -(cos(3.8*(drawTime/swapTime)-0.4)*0.5-0.5)*1.055-0.04
+        if(drawTime>0.43):
+            for x in walls.size():
+                for y in walls[0].size():
+                    if(walldiff[x][y]!=0):
+                        var i = square_dust.instance()
+                        i.position.x = (x-walls.size()/2)*textureSize.x
+                        i.position.y = (y-walls[0].size()/2)*textureSize.x+(textureSize.y-size-bottomBuffer)*((walldiff[x][y]-1)/(0-2))
+                        for child in i.get_children():
+                            child.emitting = true
+                        $"Particles".add_child(i)
+        if(drawTime>0.44):
+            for child in $"Particles".get_children():
+                for child2 in child.get_children():
+                    child2.emitting = false
         if(drawTime>=swapTime):
             #Finish swap
             drawTime = 0.0
+            #Draw particles
+            
+            #Swap walls
             var s = newwalls
             newwalls = walls
             walls = s
