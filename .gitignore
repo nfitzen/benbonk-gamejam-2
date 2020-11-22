@@ -6,8 +6,10 @@
 #
 # SPDX-License-Identifier: MIT
 
-# File headers and such
-!.vscode/settings.json
+# Binaries
+bin/
+build/
+lib/
 
 # Created by https://www.toptal.com/developers/gitignore/api/windows,macos,linux,visualstudiocode,notepadpp,godot
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,macos,linux,visualstudiocode,notepadpp,godot
@@ -79,6 +81,10 @@ Temporary Items
 !.vscode/tasks.json
 !.vscode/launch.json
 *.code-workspace
+
+# Share workspace settings
+
+!.vscode/settings.json
 
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
