@@ -65,6 +65,7 @@ func recalc_prox():
 
 func _ready():
     populate(17,15);
+    $"../WallCollision".create_bodies(walls)
 
 func update():
     pass
