@@ -3,12 +3,14 @@ extends Node2D
 export (Texture) var texture setget _set_texture
 var walls : Array = [];
 var newwalls : Array = [];
+var walldiff : Array = [];
 var walltypes : Array = [];
 var wallproxs : Array = [];
 const size = 16
 const bottomBuffer = 8
 const textureSize : Vector2 = Vector2(size,48)
 var drawShadows : bool = true
+var drawHeight : float = 0.0
 
 func populate(x_size, y_size):
     var r : Array
@@ -16,7 +18,18 @@ func populate(x_size, y_size):
     walls = r[0]
     walltypes = r[1]
     wallproxs = r[2]
+    r = gen_basic(x_size,y_size)
+    newwalls = r[0]
+    walldiff = get_diff(walls,newwalls)
     recalc_prox()
+
+func get_diff(w,nw):
+    var d : Array = []
+    for x in w.size():
+        d.append([])
+        for y in w[0].size():
+            d[x].append(nw[x][y]-w[x][y])
+    return d
 
 func gen_basic(x_size, y_size):
     var w : Array = []
@@ -66,10 +79,14 @@ func recalc_prox():
 func _ready():
     populate(17,15);
 
-func update():
-    pass
 
-func _process(_delta):
+func _process(delta):
+    if(Input.is_action_pressed("ui_left")):
+        drawHeight+=0.1
+    if(Input.is_action_pressed("ui_right")):
+        drawHeight-=0.1
+    if(drawHeight>1): drawHeight = 1.0
+    if(drawHeight<0): drawHeight = 0.0
     update()
     
 func _set_texture(value):
@@ -92,6 +109,9 @@ func _draw():
         for x in walls.size():
             var screenrect = Rect2((-walls.size())*size/2+x*size,-walls.size()*size/2+y*size+size,textureSize.x,textureSize.y)
             if(walls[x][y]==0):
+                # Rendering floors
+                if(walldiff[x][y]==1):
+                    screenrect.position.y-=(textureSize.y-size-bottomBuffer)*drawHeight
                 screenrect.position.y+=textureSize.y-size-bottomBuffer
                 if(wallproxs[x][y]!=0):
                     screenrect.size.x = textureSize.x
@@ -185,6 +205,11 @@ func _draw():
                     if(drawShadows):
                         if(walls[x+1][y]==1):
                             var length : float = textureSize.x*0.75
+                            if(walldiff[x+1][y]==-1):
+                                length -= textureSize.x*0.75*drawHeight
+                            if(walldiff[x][y]==1):
+                                length -= textureSize.x*0.75*drawHeight
+                            if(length<0): length = 0.0
                             screenrect.position.x-=length-textureSize.x*0.5
                             screenrect.position.y-=textureSize.x/2
                             screenrect.size.x = length
