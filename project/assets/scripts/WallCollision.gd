@@ -10,14 +10,14 @@ func _ready():
 
 # Expects a 2D Boolean array
 func create_bodies(walls):
-    for row in range(len(walls)):
+    for x in range(len(walls)):
         var br = []
-        for col in range(len(walls[row])):
-            if walls[row][col]:
+        for y in range(len(walls[x])):
+            if walls[x][y]:
                 var body = UnitWallCollision.instance()
                 br.append(body)
                 add_child(body)
-                body.position += Vector2(row, col) * size
+                body.position += Vector2(x, y) * size
             else:
                 br.append(null)
         static_bodies.append(br)
