@@ -30,7 +30,7 @@ func _process(delta):
         if dashDelta < dashTime:
             move_and_slide(dashVelocity)
         elif get_slide_count() == 0 and remainingDashLen < 0:
-            position = position + remainingDashLen *
+            position = position + remainingDashLen * dashDirection
         else:
             dashing = false
 
