@@ -97,7 +97,11 @@ func _process(delta):
     if(swapping):
         drawTime += delta
         drawHeight = -(cos(3.8*(drawTime/swapTime)-0.4)*0.5-0.5)*1.055-0.04
+        #Screen shake
+        $"../../Camera2D".shakeMag += 0.15
         if(drawTime>0.43):
+            #Screen shake
+            $"../../Camera2D".shakeMag = 5
             for x in walls.size():
                 for y in walls[0].size():
                     if(walldiff[x][y]==1 || (walldiff[x][y]==-1&&walls[x][y+1]==0&&newwalls[x][y+1]==0)):
