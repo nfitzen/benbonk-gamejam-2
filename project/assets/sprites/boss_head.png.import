@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/walls tileset.png-729eb9d9252245ad8f387ee48a1aa88d.stex"
+path="res://.import/boss_head.png-daec987db0bbca8d7bcae8407b1a5d9a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/walls tileset.png"
-dest_files=[ "res://.import/walls tileset.png-729eb9d9252245ad8f387ee48a1aa88d.stex" ]
+source_file="res://assets/sprites/boss_head.png"
+dest_files=[ "res://.import/boss_head.png-daec987db0bbca8d7bcae8407b1a5d9a.stex" ]
 
 [params]
 
