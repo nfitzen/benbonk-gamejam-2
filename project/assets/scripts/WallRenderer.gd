@@ -121,6 +121,8 @@ func _process(delta):
             newwalls = walls
             walls = s
             walldiff = get_diff(walls,newwalls)
+            # TODO: add collision for walls the moment they move up, but still only remove it when they finish going down
+            $"../WallCollision".update_from_diff(walldiff)
             recalc_prox()
             swapping = false
             drawHeight = 0.0
