@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/entities/Walls.tscn" type="PackedScene" id=1]
+
+[node name="main" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 0.24, 0.24 )
+
+[node name="Walls" parent="." instance=ExtResource( 1 )]
