@@ -15,7 +15,10 @@ func populate(x_size, y_size):
 			if(x>4&&x<12&&y>5&&y<11):
 				walls[x].append(0)
 			else:
-				walls[x].append(1)
+				if(x>3&&x<13&&y>4&&y<12):
+					walls[x].append(randi()%2)
+				else:
+					walls[x].append(1)
 	for x in x_size:
 		walltypes.append([])
 		for y in y_size:
@@ -81,9 +84,10 @@ func _draw():
 				if(wallproxs[x][y]!=0):
 					screenrect.size.x = textureSize.x
 					screenrect.size.y = textureSize.x
-					var texturerect = Rect2(4*size,size*(2-wallproxs[x][y]),textureSize.x,textureSize.x)
+					var texturerect = Rect2((4+walltypes[x][y])*size,size*(2-wallproxs[x][y]),textureSize.x,textureSize.x)
 					texture.draw_rect_region(get_canvas_item(), screenrect, texturerect)
 				else:
+					#Border floor (needs slicing)
 					screenrect.size.x=textureSize.x/2
 					screenrect.size.y=textureSize.x/2
 					var texturerect1a
@@ -94,10 +98,68 @@ func _draw():
 					texturerect1b = Rect2(4*size+textureSize.x/2,size*(2-wallproxs[x][y]),textureSize.x/2,textureSize.x/2)
 					texturerect1c = Rect2(4*size,textureSize.x/2+size*(2-wallproxs[x][y]),textureSize.x/2,textureSize.x/2)
 					texturerect1d = Rect2(4*size+textureSize.x/2,size*(2-wallproxs[x][y])+textureSize.x/2,textureSize.x/2,textureSize.x/2)
-				
-				
-				
-				
+					if(x>0&&x<walls.size()-1&&y>0&&y<walls[0].size()-1):
+						#A
+						if(walls[x-1][y]==1):
+							if(walls[x][y-1]==1):
+								pass
+							else:
+								if(walls[x-1][y-1]==1):
+									texturerect1a.position.x+=textureSize.x
+								else:
+									texturerect1a.position.x+=textureSize.x*2
+									texturerect1a.position.y+=textureSize.x*0.5
+						else:
+							if(walls[x][y-1]==1):
+								if(walls[x-1][y-1]==1):
+									texturerect1a.position.x+=textureSize.x*2
+								else:
+									texturerect1a.position.x+=textureSize.x*3
+							else:
+								texturerect1a.position.y-=textureSize.x*3
+						#B
+						if(walls[x+1][y]==1):
+							if(walls[x][y-1]==1):
+								pass
+							else:
+								if(walls[x+1][y-1]==1):
+									texturerect1b.position.x+=textureSize.x
+								else:
+									texturerect1b.position.x+=textureSize.x*2
+									texturerect1b.position.y+=textureSize.x*0.5
+						else:
+							if(walls[x][y-1]==1):
+								if(walls[x+1][y-1]==1):
+									texturerect1b.position.x+=textureSize.x*2
+								else:
+									texturerect1b.position.x+=textureSize.x*3
+							else:
+								texturerect1b.position.y-=textureSize.x*3
+						#C
+						if(walls[x-1][y]==1):
+							if(walls[x][y+1]==1):
+								pass
+							else:
+								if(walls[x-1][y+1]==1):
+									texturerect1c.position.x+=textureSize.x
+								else:
+									texturerect1c.position.x+=textureSize.x*3
+						else:
+							#Hopefully our walls are taller than 8px
+							texturerect1c.position.y-=textureSize.x*3
+						#D
+						if(walls[x+1][y]==1):
+							if(walls[x][y+1]==1):
+								pass
+							else:
+								if(walls[x+1][y+1]==1):
+									texturerect1d.position.x+=textureSize.x
+								else:
+									texturerect1d.position.x+=textureSize.x*3
+						else:
+							#Hopefully our walls are taller than 8px
+							texturerect1d.position.y-=textureSize.x*3
+					
 					texture.draw_rect_region(get_canvas_item(), screenrect, texturerect1a)
 					screenrect.position.x+=textureSize.x/2
 					texture.draw_rect_region(get_canvas_item(), screenrect, texturerect1b)
