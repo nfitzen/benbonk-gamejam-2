@@ -8,6 +8,7 @@ var newwalls : Array = [];
 var walldiff : Array = [];
 var walltypes : Array = [];
 var wallproxs : Array = [];
+var canvasRows : Array = [];
 const z_multiplier = 16;
 const size = 16
 const bottomBuffer = 8
@@ -28,6 +29,14 @@ func populate(x_size, y_size):
     newwalls = r[0]
     walldiff = get_diff(walls,newwalls)
     recalc_prox()
+    gen_canvas_items(y_size)
+    
+func gen_canvas_items(y_size):
+    for y in y_size:
+        #canvasRows.append(get_canvas_item())
+        canvasRows.append(VisualServer.canvas_item_create())
+        VisualServer.canvas_item_set_draw_index(canvasRows[y],(y-walls[0].size()/2)*z_multiplier)
+        VisualServer.canvas_item_set_parent(canvasRows[y], get_canvas_item())
 
 func get_diff(w,nw):
     var d : Array = []
@@ -96,7 +105,7 @@ func _process(delta):
         
     if(swapping):
         drawTime += delta
-        drawHeight = -(cos(3.8*(drawTime/swapTime)-0.4)*0.5-0.5)*1.055-0.04
+        drawHeight = -(cos(3.8*(drawTime/swapTime)-0.4)*0.5-0.5)*1.155-0.09
         #Screen shake
         $"../../Camera2D".shakeMag += 0.15
         if(drawTime>0.43):
@@ -152,7 +161,7 @@ func draw_floor(x, y, screenrect, alpha=1.0, use_z=false):
         screenrect.size.x = textureSize.x
         screenrect.size.y = textureSize.x
         var texturerect = Rect2((4+walltypes[x][y])*size,size*(2-wallproxs[x][y]),textureSize.x,textureSize.x)
-        texture.draw_rect_region(get_canvas_item(), screenrect, texturerect, Color(1,1,1,alpha))
+        texture.draw_rect_region(canvasRows[y], screenrect, texturerect, Color(1,1,1,alpha))
     else:
         #Border floor (needs slicing)
         screenrect.size.x=textureSize.x/2
@@ -227,16 +236,16 @@ func draw_floor(x, y, screenrect, alpha=1.0, use_z=false):
                 #Hopefully our walls are taller than 8px
                 texturerect1d.position.y-=textureSize.x*3
         
-        texture.draw_rect_region(get_canvas_item(), screenrect, texturerect1a, Color(1,1,1,alpha))
+        texture.draw_rect_region(canvasRows[y], screenrect, texturerect1a, Color(1,1,1,alpha))
         screenrect.position.x+=textureSize.x/2
-        texture.draw_rect_region(get_canvas_item(), screenrect, texturerect1b, Color(1,1,1,alpha))
+        texture.draw_rect_region(canvasRows[y], screenrect, texturerect1b, Color(1,1,1,alpha))
         screenrect.position.x-=textureSize.x/2
         screenrect.position.y+=textureSize.x/2
-        texture.draw_rect_region(get_canvas_item(), screenrect, texturerect1c, Color(1,1,1,alpha))
+        texture.draw_rect_region(canvasRows[y], screenrect, texturerect1c, Color(1,1,1,alpha))
         screenrect.position.x+=textureSize.x/2
-        texture.draw_rect_region(get_canvas_item(), screenrect, texturerect1d, Color(1,1,1,alpha))
+        texture.draw_rect_region(canvasRows[y], screenrect, texturerect1d, Color(1,1,1,alpha))
         #var texturerect = Rect2((walltypes[x][y]+4)*size,size*2,textureSize.x,textureSize.y)
-        #texture.draw_rect_region(get_canvas_item(), screenrect, texturerect)
+        #texture.draw_rect_region(canvasRows[y], screenrect, texturerect)
         if(drawShadows):
             if(walls[x+1][y]==0 && newwalls[x+1][y]):
                 var length : float = textureSize.x*0.75
@@ -251,7 +260,7 @@ func draw_floor(x, y, screenrect, alpha=1.0, use_z=false):
                 screenrect.size.y = textureSize.x
                 var texturerect3 = Rect2(textureSize.x*9,textureSize.x*3,1,1)
                 var shadowcolor = Color(1.0,1.0,1.0,0.4)
-                texture.draw_rect_region(get_canvas_item(), screenrect, texturerect3, shadowcolor)
+                texture.draw_rect_region(canvasRows[y], screenrect, texturerect3, shadowcolor)
             if(walls[x+1][y]==1):
                 var length : float = textureSize.x*0.75
                 if(walldiff[x+1][y]==-1):
@@ -265,7 +274,7 @@ func draw_floor(x, y, screenrect, alpha=1.0, use_z=false):
                 screenrect.size.y = textureSize.x
                 var texturerect3 = Rect2(textureSize.x*9,textureSize.x*3,1,1)
                 var shadowcolor = Color(1.0,1.0,1.0,0.4)
-                texture.draw_rect_region(get_canvas_item(), screenrect, texturerect3, shadowcolor)
+                texture.draw_rect_region(canvasRows[y], screenrect, texturerect3, shadowcolor)
                             
 func draw_wall(x, y, screenrect, alpha=1.0):
     #z_index = (y-walls[0].size()/2)*z_multiplier+100
@@ -282,18 +291,18 @@ func draw_wall(x, y, screenrect, alpha=1.0):
                 texturerect2 = Rect2(2*size,size*3,textureSize.x,textureSize.y)
         elif(walls[x+1][y+1]==1):
             texturerect2 = Rect2(size,size*3,textureSize.x,textureSize.y)
-    texture.draw_rect_region(get_canvas_item(), screenrect, texturerect2, Color(1,1,1,alpha))
+    texture.draw_rect_region(canvasRows[y], screenrect, texturerect2, Color(1,1,1,alpha))
     if(x>0&&x<walls.size()-1&&y>0&&y<walls[0].size()-1):
         screenrect.size.x=textureSize.x*0.5
         screenrect.size.y=textureSize.y-textureSize.x
         var texturerect2b
         if(walls[x-1][y]==0):
             texturerect2b = Rect2(textureSize.x*8,size*3,textureSize.x*0.5,textureSize.y-textureSize.x)
-            texture.draw_rect_region(get_canvas_item(), screenrect, texturerect2b, Color(1,1,1,alpha))
+            texture.draw_rect_region(canvasRows[y], screenrect, texturerect2b, Color(1,1,1,alpha))
         if(walls[x+1][y]==0):
             texturerect2b = Rect2(textureSize.x*8.5,size*3,textureSize.x*0.5,textureSize.y-textureSize.x)
             screenrect.position.x+=textureSize.x*0.5
-            texture.draw_rect_region(get_canvas_item(), screenrect, texturerect2b, Color(1,1,1,alpha))
+            texture.draw_rect_region(canvasRows[y], screenrect, texturerect2b, Color(1,1,1,alpha))
             screenrect.position.x-=textureSize.x*0.5
         screenrect.size.x=textureSize.x
     
@@ -304,7 +313,7 @@ func draw_wall(x, y, screenrect, alpha=1.0):
         var texturerect1 = Rect2(walltypes[x][y]*size,size*(2-wallproxs[x][y]),textureSize.x,textureSize.x)
         screenrect.size.x=textureSize.x
         screenrect.size.y=textureSize.x
-        texture.draw_rect_region(get_canvas_item(), screenrect, texturerect1, Color(1,1,1,alpha))
+        texture.draw_rect_region(canvasRows[y], screenrect, texturerect1, Color(1,1,1,alpha))
     else:
         screenrect.size.x=textureSize.x/2
         screenrect.size.y=textureSize.x/2
@@ -359,14 +368,14 @@ func draw_wall(x, y, screenrect, alpha=1.0):
                 texturerect1c.position.y-=textureSize.x
             if(!d):
                 texturerect1d.position.y-=textureSize.x
-        texture.draw_rect_region(get_canvas_item(), screenrect, texturerect1a, Color(1,1,1,alpha))
+        texture.draw_rect_region(canvasRows[y], screenrect, texturerect1a, Color(1,1,1,alpha))
         screenrect.position.x+=textureSize.x/2
-        texture.draw_rect_region(get_canvas_item(), screenrect, texturerect1b, Color(1,1,1,alpha))
+        texture.draw_rect_region(canvasRows[y], screenrect, texturerect1b, Color(1,1,1,alpha))
         screenrect.position.x-=textureSize.x/2
         screenrect.position.y+=textureSize.x/2
-        texture.draw_rect_region(get_canvas_item(), screenrect, texturerect1c, Color(1,1,1,alpha))
+        texture.draw_rect_region(canvasRows[y], screenrect, texturerect1c, Color(1,1,1,alpha))
         screenrect.position.x+=textureSize.x/2
-        texture.draw_rect_region(get_canvas_item(), screenrect, texturerect1d, Color(1,1,1,alpha))
+        texture.draw_rect_region(canvasRows[y], screenrect, texturerect1d, Color(1,1,1,alpha))
 #
 # A poem for your
 # Wall and floor renderer which
@@ -378,6 +387,7 @@ func draw_wall(x, y, screenrect, alpha=1.0):
 #
 func _draw():
     for y in walls[0].size():
+        VisualServer.canvas_item_clear(canvasRows[y])
         for x in walls.size():
             var screenrect = Rect2((-walls.size())*size/2+x*size,-walls.size()*size/2+y*size+size,textureSize.x,textureSize.y)
             if(walldiff[x][y]==0):
@@ -404,3 +414,4 @@ func _draw():
                     screenrect.position.y+=(textureSize.y-size-bottomBuffer)
                     drawHeight = 1-drawHeight
                     draw_wall(x,y,screenrect,1-drawHeight)
+            
