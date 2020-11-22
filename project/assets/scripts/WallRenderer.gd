@@ -84,10 +84,11 @@ func recalc_prox():
                     wallproxs[x+1][y] = 1
                 if(wallproxs[x][y+1]==2):
                     wallproxs[x][y+1] = 1
-                
+
 
 func _ready():
     populate(17,15);
+    $"../WallCollision".create_bodies(walls)
 
 
 func _process(delta):
@@ -109,7 +110,7 @@ func _process(delta):
             drawHeight = 0.0
     
     update()
-    
+
 func _set_texture(value):
     # If the texture variable is modified externally,
     # this callback is called.
