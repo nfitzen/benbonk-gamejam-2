@@ -11,9 +11,9 @@ func _ready():
 func create_body(x, y, offset):
     var wall_base_offset = ($"../WallRenderer".textureSize.y-$"../WallRenderer".size-$"../WallRenderer".bottomBuffer)
     var body = UnitWallCollision.instance()
-    add_child(body)
     body.position += (Vector2(x, y) + offset) * size
     body.position.y += wall_base_offset
+    add_child(body)
     return body
 
 func get_offset(walls):
