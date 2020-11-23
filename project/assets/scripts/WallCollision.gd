@@ -42,9 +42,9 @@ func update_from_diff(walldiff, oldproxs, wallproxs, newwalls):
             elif walldiff[x][y] == -1 and not static_bodies[x][y]:
                 static_bodies[x][y] = create_body(x, y, offset)
             else:
-                if (newwalls[x][y]==1 && walldiff[x][y]==0 && oldproxs[x][y]==2 && wallproxs[x][y]<2 && !static_bodies[x][y]):
+                if (newwalls[x][y]==1 && wallproxs[x][y]<2 && !static_bodies[x][y]):
                     static_bodies[x][y] = create_body(x, y, offset)
-                elif (newwalls[x][y]==1 && walldiff[x][y]==0 && wallproxs[x][y]==2 && static_bodies[x][y]):
+                elif (newwalls[x][y]==1 && wallproxs[x][y]==2 && static_bodies[x][y]):
                     static_bodies[x][y].queue_free()
                     static_bodies[x][y] = null
                 

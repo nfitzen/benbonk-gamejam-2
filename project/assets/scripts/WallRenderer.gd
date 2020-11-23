@@ -133,11 +133,11 @@ func _process(delta):
             drawTime = 0.0
             #Draw particles
             #Scroll walls
-            #scroll()
             #Swap walls
             var s = newwalls
             newwalls = walls
             walls = s
+            scroll()
             walldiff = get_diff(walls,newwalls)
             #DoinB remove array instancing hack?!!?!??! Chinese super server bracket exploit !!!
             var oldproxs = []
@@ -164,8 +164,8 @@ func scroll_new():
     var r = gen_basic(27,25)
     newwalls = r[0]
     var ofs : Vector2
-    ofs.x=-floor($"../../Player".position.x/size)
-    ofs.y=-floor($"../../Player".position.y/size)
+    ofs.x=-floor(($"../../Player".position.x-$"../".position.x)/size)
+    ofs.y=-floor(($"../../Player".position.y-$"../".position.y)/size)
     var oldwalls = []
     for x in newwalls.size():
         oldwalls.append([])
@@ -184,29 +184,43 @@ func scroll_new():
     
 func scroll():
     var ofs : Vector2
-    ofs.x=floor($"../../Player".position.x/size)
-    ofs.y=floor($"../../Player".position.y/size)
-    var oldwalls = [] + walls
+    ofs.x=floor(($"../../Player".position.x-$"../".position.x)/size)
+    ofs.y=floor(($"../../Player".position.y-$"../".position.y)/size)
+    var oldwalls = []
+    for x in walls.size():
+        oldwalls.append([])
+        for y in walls[0].size():
+            oldwalls[x].append(walls[x][y])
     for x in walls.size():
         for y in walls[0].size():
             if(x+ofs.x>=walls.size() || x+ofs.x<0 || y+ofs.y>=walls[0].size() || y+ofs.y<0):
                 walls[x][y] = 1
             else:
                 walls[x][y] = oldwalls[x+ofs.x][y+ofs.y]
-    var oldproxs = [] + wallproxs
+    var oldproxs = []
+    for x in wallproxs.size():
+        oldproxs.append([])
+        for y in wallproxs[0].size():
+            oldproxs[x].append(wallproxs[x][y])
     for x in wallproxs.size():
         for y in wallproxs[0].size():
             if(x+ofs.x>=wallproxs.size() || x+ofs.x<0 || y+ofs.y>=walls[0].size() || y+ofs.y<0):
                 wallproxs[x][y] = 2
             else:
                 wallproxs[x][y] = wallproxs[x+ofs.x][y+ofs.y]
-    var oldtypes = [] + walltypes
+    var oldtypes = []
+    for x in walltypes.size():
+        oldtypes.append([])
+        for y in walltypes[0].size():
+            oldtypes[x].append(walltypes[x][y])
     for x in walltypes.size():
         for y in walltypes[0].size():
             if(x+ofs.x>=walltypes.size() || x+ofs.x<0 || y+ofs.y>=walls[0].size() || y+ofs.y<0):
                 walltypes[x][y] = randi()%4
             else:
                 walltypes[x][y] = walltypes[x+ofs.x][y+ofs.y]
+    $"../".translate(ofs*size)
+    recalc_prox()
 
 func draw_floor(x, y, screenrect, canv, alpha=1.0, use_z=false):
     #if(!use_z):
@@ -451,6 +465,7 @@ func _draw():
         VisualServer.canvas_item_clear(canvasRows[y])
         for x in walls.size():
             var screenrect = Rect2((-walls.size())*size/2+x*size,-walls.size()*size/2+y*size+size,textureSize.x,textureSize.y)
+            screenrect.position += $"../".position
             if(walldiff[x][y]==0 || !swapping):
                 if(walls[x][y]==0):
                     draw_floor(x,y,screenrect,canvasFloors[y])
