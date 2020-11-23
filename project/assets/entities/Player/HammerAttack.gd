@@ -44,4 +44,4 @@ func _on_Area2D_body_enter(body):
         $"HitSound".stream = swordHitSounds[randi()%swordHitSounds.size()]
         $"HitSound".pitch_scale = 0.7+randf()*0.1
         $"HitSound".playing = true
-        body.take_hit(1, (body.position-position).normalized()*18+$"../Player".velocity/8)
+        body.take_hit(1, (body.position-position).normalized()*240+$"../Player".velocity*10)

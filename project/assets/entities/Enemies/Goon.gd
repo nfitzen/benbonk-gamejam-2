@@ -12,6 +12,7 @@ var attacking = false
 var attack_timer
 export var attack_speed = .8
 var kb = Vector2.ZERO
+export var kb_speed = 85
 
 # tim
 func _ready():
@@ -32,10 +33,10 @@ func _process(delta):
     else:
         $"Sprite".material = null
     if kb.length_squared() > 0:
-        var step_kb = Vector2(min(kb.normalized().x, kb.x),
-                              min(kb.normalized().y, kb.y))
+        var step_kb = Vector2(min(kb.normalized().x * kb_speed, kb.x),
+                              min(kb.normalized().y * kb_speed, kb.y))
         kb -= step_kb
-        position += step_kb
+        move_and_slide(step_kb)
     elif not attacking:
         if (target - position).length() > engage_range:
             move_and_slide(Vector2(-speed, 0).rotated(position.angle_to_point(target)))
@@ -61,6 +62,7 @@ func take_hit(damage, knockback):
     $"Sprite".material = white_shader
     $"Sprite".animation = "hit0"
     health -= damage
+    print(knockback)
     if knockback:
         attacking = false
         kb = knockback
