@@ -35,6 +35,10 @@ func _process(delta):
             attacking = false
 
 func _on_Player_player_attack(damage):
-    health -= damage
-    if health <= 0:
-        queue_free()
+    if $"../Player".active_attack.overlaps_body(self):
+        print("I am foiled")
+        health -= damage
+        if health <= 0:
+            queue_free()
+    else:
+        print("nice try fuckwad")
