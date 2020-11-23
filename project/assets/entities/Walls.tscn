@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/scripts/WallRenderer.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/walls tileset.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://assets/sounds/wall_shift_0.wav" type="AudioStream" id=7]
 [ext_resource path="res://assets/sounds/wall_shift_1.wav" type="AudioStream" id=8]
 [ext_resource path="res://assets/entities/Particles/Square Dust/Square Dust Top.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/entities/Enemies/Goon.tscn" type="PackedScene" id=10]
 
 [sub_resource type="AudioStreamSample" id=1]
 
@@ -21,6 +22,7 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 square_dust = [ ExtResource( 4 ), ExtResource( 9 ) ]
 sounds = [ ExtResource( 7 ), ExtResource( 8 ), ExtResource( 6 ), ExtResource( 5 ) ]
+enemies = [ ExtResource( 10 ) ]
 
 [node name="Particles" type="Node2D" parent="WallRenderer"]
 
