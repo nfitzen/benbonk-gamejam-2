@@ -8,10 +8,10 @@ export var speed = 75.0
 var direction = 0.0
 export var maxHealth = 4
 
-export var dashLength = 120.0
-export var dashSpeed = 200.0
-export var dashCooldownAir = 3
-export var dashCooldownWall = 6
+export var dashLength = 20.0
+export var dashSpeed = 250.0
+export var dashCooldownAir = 1
+export var dashCooldownWall = 1
 
 var dashing = false
 var dashVector : Vector2
