@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2020 Henry Schneider, Kai Hoop, and Nathaniel Fitzenrider
+# SPDX-FileCopyrightText: 2020 Henry Schneider, Kai Hoop, Nathaniel Fitzenrider, and Austin Chang
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -107,7 +107,7 @@ func _process(delta):
             move_and_slide(velocity)
     #     sprite.animation = "walk"+str(direction)
     # else:
-    #     sprite.animation = "idle"+str(direction) 
+    #     sprite.animation = "idle"+str(direction)
     if(is_melee(weapon)):
         if (velocity.length() > 0 and $"Sprite".animation.substr(0,2)!="MA"):
             $"Sprite".animation = "MW"+str(direction)
@@ -124,7 +124,7 @@ func _process(delta):
         else:
             if($"Sprite".frame==1):
                 $"Sprite".animation = "RI"+str(direction)
-    
+
     if(ammoUpdate>0):
         ammoUpdate -= delta
         if(ammoUpdate<0): ammoUpdate = 0.0
