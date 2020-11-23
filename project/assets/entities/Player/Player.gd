@@ -4,6 +4,8 @@
 
 extends KinematicBody2D
 
+signal player_attack(damage)
+
 export var speed = 75.0
 var direction = 0.0
 export var maxHealth = 4
@@ -32,6 +34,10 @@ func ready():
 func _process(delta):
     if(Input.is_action_just_pressed("ui_right")):
         print(position.y)
+    if(Input.is_action_just_pressed("left")):
+        print("thwick thwack")
+        emit_signal("player_attack", 40)
+        
     
     VisualServer.canvas_item_set_z_index(get_canvas_item(), position.y)
     #z_index = -position.y
@@ -82,3 +88,6 @@ func dash():
     remainingDashLen = dashLength
     print(dashDirection, dashVelocity, dashVector)
     print(dashTime)
+    
+func _on_enemy_attack(damage):
+    print("ouch owie")
