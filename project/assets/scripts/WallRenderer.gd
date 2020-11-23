@@ -56,10 +56,10 @@ func gen_basic(x_size, y_size):
     for x in x_size:
         w.append([])
         for y in y_size:
-            if(x>4&&x<12&&y>5&&y<9):
+            if(x>9&&x<17&&y>10&&y<14):
                 w[x].append(0)
             else:
-                if(x>2&&x<14&&y>3&&y<11):
+                if(x>7&&x<19&&y>8&&y<16):
                     w[x].append(randi()%2)
                 else:
                     w[x].append(1)
@@ -95,7 +95,7 @@ func recalc_prox():
 
 
 func _ready():
-    populate(17,15);
+    populate(27,25);
     $"../WallCollision".create_bodies(walls, wallproxs)
 
 

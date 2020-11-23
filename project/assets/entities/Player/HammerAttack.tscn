@@ -1,0 +1,61 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://assets/entities/Player/HammerAttack.gd" type="Script" id=1]
+[ext_resource path="res://assets/sounds/swing_hit_1.wav" type="AudioStream" id=2]
+[ext_resource path="res://assets/sounds/swing_miss_1.wav" type="AudioStream" id=3]
+[ext_resource path="res://assets/sounds/swing_hit_0.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/sprites/swipe particle hammer.png" type="Texture" id=5]
+[ext_resource path="res://assets/sounds/swing_miss.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/sounds/swing_miss_2.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/entities/Particles/Hit FX.tscn" type="PackedScene" id=8]
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 5 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 5 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 5 )
+region = Rect2( 96, 0, 32, 32 )
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), null ],
+"loop": false,
+"name": "default",
+"speed": 8.0
+} ]
+
+[node name="HammerAttack" type="Area2D" groups=[
+"pause tier 0",
+]]
+pause_mode = 2
+gravity_vec = Vector2( 0, 0 )
+gravity = 0.0
+script = ExtResource( 1 )
+swordSwipeSounds = [ ExtResource( 6 ), ExtResource( 3 ), ExtResource( 7 ) ]
+swordHitSounds = [ ExtResource( 4 ), ExtResource( 2 ) ]
+hitFX = ExtResource( 8 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+build_mode = 1
+polygon = PoolVector2Array( 6, 18, 16, 10, 16, -10, 6, -18 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 4, 0 )
+rotation = 2.35619
+z_index = 12
+frames = SubResource( 5 )
+
+[node name="SwipeSound" type="AudioStreamPlayer" parent="."]
+volume_db = -14.0
+
+[node name="HitSound" type="AudioStreamPlayer" parent="."]
+volume_db = -10.0
