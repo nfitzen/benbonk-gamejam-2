@@ -1,0 +1,95 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/sprites/title.png" type="Texture" id=1]
+[ext_resource path="res://assets/sprites/benis.png" type="Texture" id=2]
+[ext_resource path="res://assets/scenes/menus/TitleScreen/HelpButton.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/scenes/menus/TitleScreen/PlayButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/scenes/menus/TitleScreen/ExitButton.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/scenes/menus/TitleScreen/TitleScreen.gd" type="Script" id=6]
+[ext_resource path="res://assets/scripts/OnRun.gd" type="Script" id=7]
+
+[node name="TitleScreen" type="Control"]
+margin_left = 0.162033
+margin_top = 1.1266
+margin_right = 248.162
+margin_bottom = 147.127
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Menu" type="VBoxContainer" parent="."]
+margin_left = 19.0
+margin_top = 17.0
+margin_right = 788.0
+margin_bottom = 567.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Menu"]
+anchor_left = 0.564
+anchor_right = 0.755
+anchor_bottom = 0.126
+texture = ExtResource( 1 )
+stretch_mode = 6
+
+[node name="CenterRow" type="HBoxContainer" parent="Menu"]
+margin_left = 100.0
+margin_top = 31.0
+margin_right = 869.0
+margin_bottom = 498.0
+size_flags_vertical = 3
+
+[node name="Buttons" type="VBoxContainer" parent="Menu/CenterRow"]
+margin_left = 150.0
+margin_right = 532.0
+margin_bottom = 467.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Play" parent="Menu/CenterRow/Buttons" instance=ExtResource( 4 )]
+margin_top = 199.0
+margin_right = 382.0
+margin_bottom = 219.0
+
+[node name="help" parent="Menu/CenterRow/Buttons" instance=ExtResource( 3 )]
+margin_top = 223.0
+margin_right = 382.0
+margin_bottom = 243.0
+
+[node name="exit" parent="Menu/CenterRow/Buttons" instance=ExtResource( 5 )]
+margin_top = 247.0
+margin_right = 382.0
+margin_bottom = 267.0
+
+[node name="CenterContainer" type="CenterContainer" parent="Menu/CenterRow"]
+margin_left = 32.0
+margin_right = 769.0
+margin_bottom = 200.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="Menu/CenterRow/CenterContainer"]
+margin_left = 314.0
+margin_top = 73.0
+margin_right = 422.0
+margin_bottom = 127.0
+texture = ExtResource( 2 )
+
+[node name="VersionLabel" type="Label" parent="Menu"]
+margin_top = 502.0
+margin_right = 769.0
+margin_bottom = 550.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+text = "version penis
+dumbass studios
+"
+
+[node name="OnRun" type="Node" parent="."]
+script = ExtResource( 7 )
+[connection signal="pressed" from="Menu/CenterRow/Buttons/Play" to="." method="_on_Play_pressed"]
+[connection signal="pressed" from="Menu/CenterRow/Buttons/help" to="." method="_on_help_pressed"]
+[connection signal="pressed" from="Menu/CenterRow/Buttons/exit" to="." method="_on_exit_pressed"]

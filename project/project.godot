@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Benbonk-gamejam- 2"
-run/main_scene="res://assets/scenes/main.tscn"
+run/main_scene="res://assets/scenes/menus/TitleScreen/TitleScreen.tscn"
 boot_splash/image="res://assets/sprites/boss_head.png"
 boot_splash/fullsize=false
 boot_splash/use_filter=false

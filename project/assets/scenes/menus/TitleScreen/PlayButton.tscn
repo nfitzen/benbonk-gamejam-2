@@ -1,0 +1,17 @@
+[gd_scene format=2]
+
+[node name="Play" type="Button"]
+margin_right = 211.0
+margin_bottom = 20.0
+flat = true
+
+[node name="Play" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
+custom_constants/shadow_offset_y = 1
+text = "Play
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
