@@ -4,6 +4,10 @@
 
 extends KinematicBody2D
 
+signal player_attack(damage)
+
+var active_attack
+
 export var speed = 75.0
 var direction = 0.0
 export var maxHealth = 4
@@ -29,9 +33,14 @@ var dashCooldown = 0
 func ready():
     VisualServer.canvas_item_set_parent(get_canvas_item(), $"../".get_canvas_item())
 
+func _ready():
+    active_attack = $SlashAttack
+
 func _process(delta):
     if(Input.is_action_just_pressed("ui_right")):
         print(position.y)
+    if(Input.is_action_just_pressed("attack")):
+        active_attack.attack()
     
     VisualServer.canvas_item_set_z_index(get_canvas_item(), position.y)
     #z_index = -position.y
@@ -82,3 +91,6 @@ func dash():
     remainingDashLen = dashLength
     print(dashDirection, dashVelocity, dashVector)
     print(dashTime)
+    
+func _on_enemy_attack(damage):
+    print("ouch owie")
