@@ -6,8 +6,12 @@ extends KinematicBody2D
 
 signal player_attack(damage)
 export (Array, PackedScene) var attacks
+export (PackedScene) var soundPlayer
+export (Array, AudioStream) var hitSounds
 signal death
 signal health_update(health)
+
+export (Material) var white_shader
 
 var active_attack = 0
 var maxNumAttack = 2
@@ -37,7 +41,7 @@ var dashCooldown = 0.0
 
 # Weapons
 var weapon = 0
-var maxAmmos = [4,3,5]
+var maxAmmos = [2,3,4]
 var ammo = 4
 var ammoUpdate = 0.0
 var healthUpdate = 0.0
@@ -125,8 +129,12 @@ func _process(delta):
         ammoUpdate -= delta
         if(ammoUpdate<0): ammoUpdate = 0.0
     if(healthUpdate>0):
+        $"Sprite".material = white_shader
         healthUpdate -= delta
-        if(healthUpdate<0): healthUpdate = 0.0
+        if(healthUpdate<0): 
+            healthUpdate = 0.0
+            $"Sprite".material = null
+            
     if(cooldown>0):
         cooldown -= delta
         if(cooldown<0): cooldown = 0.0
@@ -171,8 +179,13 @@ func dash():
     # print(dashTime)
 
 func _on_enemy_attack(damage):
-    print("ouch owie")
+    var c = soundPlayer.instance()
+    c.stream = hitSounds[randi()%hitSounds.size()]
+    c.pitch_scale = 1.0+randf()*0.2
+    c.playing = true
+    $"../".add_child(c)
     health -= damage
+    healthUpdate = 0.3
     if health <= 0:
         emit_signal("death")
     emit_signal("health_update",health)
