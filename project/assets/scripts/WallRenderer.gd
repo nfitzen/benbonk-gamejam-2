@@ -19,6 +19,10 @@ var drawHeight : float = 0.0
 var drawTime : float = 0.0
 var swapping = false;
 var swapTime = 0.45;
+var initSwap = false
+
+func init_swap():
+    initSwap = true;
 
 func populate(x_size, y_size):
     var r : Array
@@ -62,13 +66,10 @@ func gen_basic(x_size, y_size):
     for x in x_size:
         w.append([])
         for y in y_size:
-            if(x>9&&x<17&&y>10&&y<14):
+            if(x>9&&x<17&&y>8&&y<15):
                 w[x].append(0)
             else:
-                if(x>7&&x<19&&y>8&&y<16):
-                    w[x].append(randi()%2)
-                else:
-                    w[x].append(1)
+                w[x].append(1)
     for x in x_size:
         wt.append([])
         for y in y_size:
@@ -106,7 +107,8 @@ func _ready():
 
 
 func _process(delta):
-    if(Input.is_action_pressed("ui_left")):
+    if(initSwap):
+        initSwap = false;
         swapping = true;
         scroll_new()
         $"Sound".stream = sounds[randi()%sounds.size()]
