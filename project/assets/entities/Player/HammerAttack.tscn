@@ -55,7 +55,9 @@ z_index = 12
 frames = SubResource( 5 )
 
 [node name="SwipeSound" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
 volume_db = -14.0
 
 [node name="HitSound" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
 volume_db = -10.0

@@ -9,7 +9,9 @@ extents = Vector2( 8, 8 )
 "wall",
 ]]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=[
+"wall",
+]]
 shape = SubResource( 1 )
 
 [node name="Debug" type="Sprite" parent="."]
