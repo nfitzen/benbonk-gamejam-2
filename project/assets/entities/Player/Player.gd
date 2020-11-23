@@ -12,6 +12,7 @@ export var dashLength = 120.0
 export var dashSpeed = 200.0
 export var dashCooldownAir = 3
 export var dashCooldownWall = 6
+
 var dashing = false
 var dashVector : Vector2
 var dashVelocity : Vector2
@@ -27,6 +28,7 @@ var dashCooldown = 0
 
 
 func _process(delta):
+    z_index = position.y
     velocity = Vector2.ZERO
     if dashCooldown > 0:
         dashCooldown -= delta
