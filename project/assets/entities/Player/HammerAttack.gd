@@ -8,7 +8,7 @@ export (PackedScene) var hitFX
 func _ready():
     VisualServer.canvas_item_set_parent(get_canvas_item(), $"../".get_canvas_item())
     $"SwipeSound".stream = swordSwipeSounds[randi()%swordSwipeSounds.size()]
-    $"SwipeSound".pitch_scale = 1.0+randf()*0.2
+    $"SwipeSound".pitch_scale = 0.6+randf()*0.15
     $"SwipeSound".playing = true
     connect("body_entered", self, "_on_Area2D_body_enter")
     VisualServer.canvas_item_set_z_index(get_canvas_item(), position.y)
@@ -42,6 +42,6 @@ func _on_Area2D_body_enter(body):
         VisualServer.canvas_item_set_z_index(i.get_canvas_item(), i.position.y+8)
         $"../".add_child(i)
         $"HitSound".stream = swordHitSounds[randi()%swordHitSounds.size()]
-        $"HitSound".pitch_scale = 1.0+randf()*0.3
+        $"HitSound".pitch_scale = 0.7+randf()*0.1
         $"HitSound".playing = true
-        body.take_hit(1, (body.position-position).normalized()*160+$"../Player".velocity*6)
+        body.take_hit(1, (body.position-position).normalized()*240+$"../Player".velocity*10)

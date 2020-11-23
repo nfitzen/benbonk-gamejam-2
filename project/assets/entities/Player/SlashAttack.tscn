@@ -1,12 +1,60 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://assets/entities/Player/SlashAttack.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/swipe particle sword.png" type="Texture" id=2]
+[ext_resource path="res://assets/sounds/swing_miss.wav" type="AudioStream" id=3]
+[ext_resource path="res://assets/sounds/swing_hit_1.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/sounds/swing_miss_1.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/sounds/swing_hit_0.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/sounds/swing_miss_2.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/entities/Particles/Hit FX.tscn" type="PackedScene" id=8]
 
-[node name="SlashAttack" type="Area2D"]
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 2 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 2 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 2 )
+region = Rect2( 96, 0, 32, 32 )
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), null ],
+"loop": false,
+"name": "default",
+"speed": 10.0
+} ]
+
+[node name="SlashAttack" type="Area2D" groups=[
+"scrolling",
+]]
+pause_mode = 2
+gravity_vec = Vector2( 0, 0 )
+gravity = 0.0
 script = ExtResource( 1 )
+swordSwipeSounds = [ ExtResource( 3 ), ExtResource( 5 ), ExtResource( 7 ) ]
+swordHitSounds = [ ExtResource( 6 ), ExtResource( 4 ) ]
+hitFX = ExtResource( 8 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 build_mode = 1
-polygon = PoolVector2Array( 6, 6, 9, 0, 6, -6, 0, 0 )
+polygon = PoolVector2Array( 4, 16, 16, 8, 16, -8, 4, -16 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+rotation = 2.35619
+z_index = 12
+frames = SubResource( 5 )
+
+[node name="SwipeSound" type="AudioStreamPlayer" parent="."]
+volume_db = -12.0
+
+[node name="HitSound" type="AudioStreamPlayer" parent="."]
+volume_db = -10.0

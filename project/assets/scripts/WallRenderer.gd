@@ -13,12 +13,16 @@ var canvasFloors : Array = [];
 const z_multiplier = 16;
 const size = 16
 const bottomBuffer = 8
-const textureSize : Vector2 = Vector2(size,48)
+const textureSize : Vector2 = Vector2(size,40)
 var drawShadows : bool = true
 var drawHeight : float = 0.0
 var drawTime : float = 0.0
 var swapping = false;
 var swapTime = 0.45;
+var initSwap = false
+
+func init_swap():
+    initSwap = true;
 
 func populate(x_size, y_size):
     var r : Array
@@ -35,12 +39,17 @@ func populate(x_size, y_size):
 func gen_canvas_items(y_size):
     for y in y_size:
         canvasFloors.append(VisualServer.canvas_item_create())
-        VisualServer.canvas_item_set_z_index(canvasFloors[y],(y-1-walls[0].size()/2)*z_multiplier+(textureSize.y-size-bottomBuffer))
+        VisualServer.canvas_item_set_z_index(canvasFloors[y],(y-1-walls[0].size()/2)*z_multiplier+(textureSize.y-size-bottomBuffer)+1)
         VisualServer.canvas_item_set_parent(canvasFloors[y], $"../../".get_canvas_item())
-        print((y-walls[0].size()/2)*z_multiplier-(textureSize.y-size-bottomBuffer))
         canvasRows.append(VisualServer.canvas_item_create())
         VisualServer.canvas_item_set_z_index(canvasRows[y],(y-walls[0].size()/2)*z_multiplier+(textureSize.y-size-bottomBuffer))
         VisualServer.canvas_item_set_parent(canvasRows[y], $"../../".get_canvas_item())
+
+func update_z_indices():
+    for y in canvasFloors.size():
+        VisualServer.canvas_item_set_z_index(canvasFloors[y],(y-1-walls[0].size()/2)*z_multiplier+(textureSize.y-size-bottomBuffer)+1+$"../".position.y)
+        VisualServer.canvas_item_set_z_index(canvasRows[y],(y-walls[0].size()/2)*z_multiplier+(textureSize.y-size-bottomBuffer)+$"../".position.y)
+    
 
 func get_diff(w,nw):
     var d : Array = []
@@ -50,6 +59,36 @@ func get_diff(w,nw):
             d[x].append(nw[x][y]-w[x][y])
     return d
 
+func gen_weapon(x_size, y_size, id):
+    var w : Array = []
+    var wt : Array = []
+    var wp : Array = []
+    for x in x_size:
+        w.append([])
+        for y in y_size:
+            match id:
+                0:
+                    if((x>9&&x<17&&y>8&&y<15) && !(x==13&&y==12)):
+                        w[x].append(0)
+                    else:
+                        w[x].append(1)   
+                1:
+                    if(x>8&&x<18&&y>9&&y<14):
+                        w[x].append(0)
+                    else:
+                        w[x].append(1)
+            
+            
+    for x in x_size:
+        wt.append([])
+        for y in y_size:
+            wt[x].append(randi()%4)
+    for x in x_size:
+        wp.append([])
+        for y in y_size:
+            wp[x].append(0)
+    return [w,wt,wp]
+
 func gen_basic(x_size, y_size):
     var w : Array = []
     var wt : Array = []
@@ -57,13 +96,10 @@ func gen_basic(x_size, y_size):
     for x in x_size:
         w.append([])
         for y in y_size:
-            if(x>4&&x<12&&y>5&&y<9):
+            if(x>9&&x<17&&y>8&&y<15):
                 w[x].append(0)
             else:
-                if(x>2&&x<14&&y>3&&y<11):
-                    w[x].append(randi()%2)
-                else:
-                    w[x].append(1)
+                w[x].append(1)
     for x in x_size:
         wt.append([])
         for y in y_size:
@@ -96,13 +132,15 @@ func recalc_prox():
 
 
 func _ready():
-    populate(17,15);
-    $"../WallCollision".create_bodies(walls)
+    populate(27,25);
+    $"../WallCollision".create_bodies(walls, wallproxs)
 
 
 func _process(delta):
-    if(Input.is_action_pressed("ui_left")):
+    if(initSwap):
+        initSwap = false;
         swapping = true;
+        scroll_new()
         $"Sound".stream = sounds[randi()%sounds.size()]
         $"Sound".pitch_scale = 1.0+randf()*0.1
         $"Sound".playing = true
@@ -111,36 +149,45 @@ func _process(delta):
         drawTime += delta
         drawHeight = -(cos(3.8*(drawTime/swapTime)-0.4)*0.5-0.5)*1.155-0.09
         #Screen shake
-        $"../../Camera2D".shakeMag += 0.15
-        if(drawTime>0.43):
-            #Screen shake
-            $"../../Camera2D".shakeMag = 5
-            for x in walls.size():
-                for y in walls[0].size():
-                    if(walldiff[x][y]==1 || (walldiff[x][y]==-1&&walls[x][y+1]==0&&newwalls[x][y+1]==0)):
-                        var i = square_dust[(walldiff[x][y]+1)/2].instance()
-                        i.position.x = (x-walls.size()/2)*textureSize.x
-                        i.position.y = (y-walls[0].size()/2)*textureSize.x+(textureSize.y-size-bottomBuffer)*((walldiff[x][y]-1)/(0-2))
-                        for child in i.get_children():
-                            child.emitting = true
-                        $"Particles".add_child(i)
-        if(drawTime>0.44):
-            for child in $"Particles".get_children():
-                for child2 in child.get_children():
-                    child2.emitting = false
+        #$"../../Camera2D".shakeMag += 0.15
+        #if(drawTime>0.43):
+        #    #Screen shake
+        #    $"../../Camera2D".shakeMag = 5
+        #    for x in walls.size():
+        #        for y in walls[0].size():
+        #            if(walldiff[x][y]!=0):
+        #                var i = square_dust[(walldiff[x][y]+1)/2].instance()
+        #                i.position.x = (x-walls.size()/2)*textureSize.x
+        #                i.position.y = (y-walls[0].size()/2)*textureSize.x+(textureSize.y-size-bottomBuffer)*((walldiff[x][y]-1)/(0-2))
+        #                for child in i.get_children():
+        #                    child.emitting = true
+        #                $"Particles".add_child(i)
+        #if(drawTime>0.44):
+        #    for child in $"Particles".get_children():
+        #        for child2 in child.get_children():
+        #            child2.emitting = false
         if(drawTime>=swapTime):
+            $"../../Camera2D".shakeMag = 6
             #Finish swap
             drawTime = 0.0
             #Draw particles
-            
+            #Scroll walls
             #Swap walls
             var s = newwalls
             newwalls = walls
             walls = s
+            scroll()
             walldiff = get_diff(walls,newwalls)
-            # TODO: add collision for walls the moment they move up, but still only remove it when they finish going down
-            $"../WallCollision".update_from_diff(walldiff)
+            #DoinB remove array instancing hack?!!?!??! Chinese super server bracket exploit !!!
+            var oldproxs = []
+            for x in wallproxs.size():
+                oldproxs.append([])
+                for y in wallproxs[0].size():
+                    oldproxs[x].append(wallproxs[x][y])
             recalc_prox()
+            # TODO: add collision for walls the moment they move up, but still only remove it when they finish going down
+            $"../WallCollision".update_from_diff(walldiff, oldproxs, wallproxs, walls)
+            
             swapping = false
             drawHeight = 0.0
     
@@ -151,6 +198,68 @@ func _set_texture(value):
     # this callback is called.
     texture = value #texture was changed
     update() # update the node
+    
+func scroll_new():
+    var r = gen_weapon(27,25,$"../../Player".weapon)
+    newwalls = r[0]
+    var ofs : Vector2
+    ofs.x=-floor(($"../../Player".position.x-$"../".position.x)/size)
+    ofs.y=-floor(($"../../Player".position.y-$"../".position.y)/size)
+    var oldwalls = []
+    for x in newwalls.size():
+        oldwalls.append([])
+        for y in newwalls[0].size():
+            oldwalls[x].append(newwalls[x][y])
+    for x in newwalls.size():
+        for y in newwalls[0].size():
+            if(x+ofs.x>=newwalls.size() || x+ofs.x<0 || y+ofs.y>=newwalls[0].size() || y+ofs.y<0):
+                newwalls[x][y] = 1
+            else:
+                newwalls[x][y] = oldwalls[x+ofs.x][y+ofs.y]
+                
+    walldiff = get_diff(walls,newwalls)
+    recalc_prox()
+    
+func scroll():
+    var ofs : Vector2
+    ofs.x=floor(($"../../Player".position.x-$"../".position.x)/size)
+    ofs.y=floor(($"../../Player".position.y-$"../".position.y)/size)
+    var oldwalls = []
+    for x in walls.size():
+        oldwalls.append([])
+        for y in walls[0].size():
+            oldwalls[x].append(walls[x][y])
+    for x in walls.size():
+        for y in walls[0].size():
+            if(x+ofs.x>=walls.size() || x+ofs.x<0 || y+ofs.y>=walls[0].size() || y+ofs.y<0):
+                walls[x][y] = 1
+            else:
+                walls[x][y] = oldwalls[x+ofs.x][y+ofs.y]
+    var oldproxs = []
+    for x in wallproxs.size():
+        oldproxs.append([])
+        for y in wallproxs[0].size():
+            oldproxs[x].append(wallproxs[x][y])
+    for x in wallproxs.size():
+        for y in wallproxs[0].size():
+            if(x+ofs.x>=wallproxs.size() || x+ofs.x<0 || y+ofs.y>=walls[0].size() || y+ofs.y<0):
+                wallproxs[x][y] = 2
+            else:
+                wallproxs[x][y] = wallproxs[x+ofs.x][y+ofs.y]
+    var oldtypes = []
+    for x in walltypes.size():
+        oldtypes.append([])
+        for y in walltypes[0].size():
+            oldtypes[x].append(walltypes[x][y])
+    for x in walltypes.size():
+        for y in walltypes[0].size():
+            if(x+ofs.x>=walltypes.size() || x+ofs.x<0 || y+ofs.y>=walls[0].size() || y+ofs.y<0):
+                walltypes[x][y] = randi()%4
+            else:
+                walltypes[x][y] = walltypes[x+ofs.x][y+ofs.y]
+    $"../".translate(ofs*size)
+    update_z_indices()
+    recalc_prox()
 
 func draw_floor(x, y, screenrect, canv, alpha=1.0, use_z=false):
     #if(!use_z):
@@ -395,6 +504,7 @@ func _draw():
         VisualServer.canvas_item_clear(canvasRows[y])
         for x in walls.size():
             var screenrect = Rect2((-walls.size())*size/2+x*size,-walls.size()*size/2+y*size+size,textureSize.x,textureSize.y)
+            screenrect.position += $"../".position
             if(walldiff[x][y]==0 || !swapping):
                 if(walls[x][y]==0):
                     draw_floor(x,y,screenrect,canvasFloors[y])
