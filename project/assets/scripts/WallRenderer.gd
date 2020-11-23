@@ -102,6 +102,7 @@ func _ready():
 func _process(delta):
     if(Input.is_action_pressed("ui_left")):
         swapping = true;
+        scroll_new()
         $"Sound".stream = sounds[randi()%sounds.size()]
         $"Sound".pitch_scale = 1.0+randf()*0.1
         $"Sound".playing = true
@@ -131,7 +132,8 @@ func _process(delta):
             #Finish swap
             drawTime = 0.0
             #Draw particles
-            
+            #Scroll walls
+            #scroll()
             #Swap walls
             var s = newwalls
             newwalls = walls
@@ -146,6 +148,7 @@ func _process(delta):
             recalc_prox()
             # TODO: add collision for walls the moment they move up, but still only remove it when they finish going down
             $"../WallCollision".update_from_diff(walldiff, oldproxs, wallproxs, walls)
+            
             swapping = false
             drawHeight = 0.0
     
@@ -156,6 +159,54 @@ func _set_texture(value):
     # this callback is called.
     texture = value #texture was changed
     update() # update the node
+    
+func scroll_new():
+    var r = gen_basic(27,25)
+    newwalls = r[0]
+    var ofs : Vector2
+    ofs.x=-floor($"../../Player".position.x/size)
+    ofs.y=-floor($"../../Player".position.y/size)
+    var oldwalls = []
+    for x in newwalls.size():
+        oldwalls.append([])
+        for y in newwalls[0].size():
+            oldwalls[x].append(newwalls[x][y])
+    for x in newwalls.size():
+        for y in newwalls[0].size():
+            if(x+ofs.x>=newwalls.size() || x+ofs.x<0 || y+ofs.y>=newwalls[0].size() || y+ofs.y<0):
+                newwalls[x][y] = 1
+            else:
+                newwalls[x][y] = oldwalls[x+ofs.x][y+ofs.y]
+                print("reached wtf")
+                
+    walldiff = get_diff(walls,newwalls)
+    recalc_prox()
+    
+func scroll():
+    var ofs : Vector2
+    ofs.x=floor($"../../Player".position.x/size)
+    ofs.y=floor($"../../Player".position.y/size)
+    var oldwalls = [] + walls
+    for x in walls.size():
+        for y in walls[0].size():
+            if(x+ofs.x>=walls.size() || x+ofs.x<0 || y+ofs.y>=walls[0].size() || y+ofs.y<0):
+                walls[x][y] = 1
+            else:
+                walls[x][y] = oldwalls[x+ofs.x][y+ofs.y]
+    var oldproxs = [] + wallproxs
+    for x in wallproxs.size():
+        for y in wallproxs[0].size():
+            if(x+ofs.x>=wallproxs.size() || x+ofs.x<0 || y+ofs.y>=walls[0].size() || y+ofs.y<0):
+                wallproxs[x][y] = 2
+            else:
+                wallproxs[x][y] = wallproxs[x+ofs.x][y+ofs.y]
+    var oldtypes = [] + walltypes
+    for x in walltypes.size():
+        for y in walltypes[0].size():
+            if(x+ofs.x>=walltypes.size() || x+ofs.x<0 || y+ofs.y>=walls[0].size() || y+ofs.y<0):
+                walltypes[x][y] = randi()%4
+            else:
+                walltypes[x][y] = walltypes[x+ofs.x][y+ofs.y]
 
 func draw_floor(x, y, screenrect, canv, alpha=1.0, use_z=false):
     #if(!use_z):

@@ -29,7 +29,9 @@ angle_random = 1.0
 scale_curve = SubResource( 3 )
 anim_offset = 0.3
 
-[node name="Bullet Casing" type="Node2D"]
+[node name="Bullet Casing" type="Node2D" groups=[
+"scrolling",
+]]
 script = ExtResource( 2 )
 
 [node name="Casing" type="Particles2D" parent="."]

@@ -43,7 +43,7 @@ func _process(delta):
         attackNum += 1;
         if(attackNum==maxNumAttack):
             attackNum = 0
-        var i  = attacks[1].instance()
+        var i  = attacks[0].instance()
         i.position = position+(get_global_mouse_position() - get_global_position()).normalized()*8
         i.num = attackNum
         $"../".add_child(i)
