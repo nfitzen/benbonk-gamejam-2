@@ -70,7 +70,7 @@ func take_hit(damage, knockback):
     $"Sprite".material = white_shader
     $"Sprite".animation = "hit0"
     health -= damage
-    print(knockback)
+    #print(knockback)
     if knockback:
         attacking = false
         kb = knockback

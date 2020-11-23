@@ -77,8 +77,8 @@ func _process(delta):
         ammo = maxAmmos[weapon]
         if(cooldown>maxCooldown[weapon]):
             cooldown = maxCooldown[weapon]
-    if(Input.is_action_just_pressed("ui_right")):
-        print(position.y)
+    #if(Input.is_action_just_pressed("ui_right")):
+       # print(position.y)
     if(Input.is_action_just_pressed("attack") && cooldown==0):
         attackNum += 1;
         ammo -= 1;
