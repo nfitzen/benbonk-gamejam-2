@@ -77,6 +77,11 @@ func gen_weapon(x_size, y_size, id):
                         w[x].append(0)
                     else:
                         w[x].append(1)
+                2:
+                    if(x>9&&x<14&&y>8&&y<18):
+                        w[x].append(0)
+                    else:
+                        w[x].append(1)
 
 
     for x in x_size:

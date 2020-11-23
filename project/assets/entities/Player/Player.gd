@@ -37,11 +37,11 @@ var dashCooldown = 0.0
 
 # Weapons
 var weapon = 0
-var maxAmmos = [4,3]
+var maxAmmos = [4,3,5]
 var ammo = 4
 var ammoUpdate = 0.0
 var healthUpdate = 0.0
-var maxCooldown = [0.3,0.6]
+var maxCooldown = [0.3,0.6,0.4]
 var cooldown = 0.0
 
 func is_melee(id):
@@ -62,8 +62,6 @@ func ready():
 
 
 func _process(delta):
-    
-    
     VisualServer.canvas_item_set_z_index(get_canvas_item(), position.y)
     #z_index = -position.y
     velocity = Vector2.ZERO
