@@ -5,8 +5,9 @@
 extends KinematicBody2D
 
 signal player_attack(damage)
+export (Array, PackedScene) var attacks
 
-var active_attack
+var active_attack = 0;
 
 export var speed = 75.0
 var direction = 0.0
@@ -27,20 +28,25 @@ var dashDelta = 0.0
 var dashTime : float
 var remainingDashLen : float
 var dashDirection : Vector2
+var maxNumAttack = 2;
+var attackNum = 0;
 
 var dashCooldown = 0
 
 func ready():
     VisualServer.canvas_item_set_parent(get_canvas_item(), $"../".get_canvas_item())
 
-func _ready():
-    active_attack = $SlashAttack
-
 func _process(delta):
     if(Input.is_action_just_pressed("ui_right")):
         print(position.y)
     if(Input.is_action_just_pressed("attack")):
-        active_attack.attack()
+        attackNum += 1;
+        if(attackNum==maxNumAttack):
+            attackNum = 0
+        var i  = attacks[0].instance()
+        i.position = position+(get_global_mouse_position() - get_global_position()).normalized()*8
+        i.num = attackNum
+        $"../".add_child(i)
     
     VisualServer.canvas_item_set_z_index(get_canvas_item(), position.y)
     #z_index = -position.y

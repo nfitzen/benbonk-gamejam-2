@@ -1,22 +1,40 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://assets/sprites/heart tileset.png" type="Texture" id=1]
+[ext_resource path="res://assets/sprites/enemy ranged.png" type="Texture" id=1]
 [ext_resource path="res://assets/entities/Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://assets/entities/Player/SlashAttack.tscn" type="PackedScene" id=3]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 5, 5 )
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 1 )
+region = Rect2( 48, 0, 24, 24 )
 
-[node name="Player" type="KinematicBody2D"]
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 72, 0, 24, 24 )
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 4.0
+
+[node name="Player" type="KinematicBody2D" groups=[
+"pause tier 0",
+]]
 z_as_relative = false
 script = ExtResource( 2 )
+attacks = [ ExtResource( 3 ) ]
 
-[node name="Sprite" type="Sprite" parent="."]
-texture = ExtResource( 1 )
-region_enabled = true
-region_rect = Rect2( 30, 0, 20, 20 )
+[node name="Sprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -6 )
+frames = SubResource( 3 )
+animation = "idle"
+playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
-
-[node name="SlashAttack" parent="." instance=ExtResource( 3 )]
+shape = SubResource( 4 )
