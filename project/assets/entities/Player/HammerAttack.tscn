@@ -9,25 +9,25 @@
 [ext_resource path="res://assets/sounds/swing_miss_2.wav" type="AudioStream" id=7]
 [ext_resource path="res://assets/entities/Particles/Hit FX.tscn" type="PackedScene" id=8]
 
-[sub_resource type="AtlasTexture" id=6]
+[sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=7]
+[sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 5 )
 region = Rect2( 32, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=8]
+[sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 5 )
 region = Rect2( 64, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=9]
+[sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 5 )
 region = Rect2( 96, 0, 32, 32 )
 
-[sub_resource type="SpriteFrames" id=10]
+[sub_resource type="SpriteFrames" id=5]
 animations = [ {
-"frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), null ],
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), null ],
 "loop": false,
 "name": "default",
 "speed": 8.0
@@ -52,7 +52,7 @@ polygon = PoolVector2Array( 6, 18, 16, 10, 16, -10, 6, -18 )
 position = Vector2( 4, 0 )
 rotation = 2.35619
 z_index = 12
-frames = SubResource( 10 )
+frames = SubResource( 5 )
 
 [node name="SwipeSound" type="AudioStreamPlayer" parent="."]
 volume_db = -14.0

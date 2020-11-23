@@ -37,11 +37,11 @@ var dashCooldown = 0.0
 
 # Weapons
 var weapon = 0
-var maxAmmos = [4,3]
+var maxAmmos = [4,3,5]
 var ammo = 4
 var ammoUpdate = 0.0
 var healthUpdate = 0.0
-var maxCooldown = [0.3,0.6]
+var maxCooldown = [0.3,0.6,0.4]
 var cooldown = 0.0
 
 func ready():
@@ -72,8 +72,7 @@ func _process(delta):
         $"../Walls/WallRenderer".init_swap()
         $"../Pause Manager".pause(0.3)
         weapon += 1;
-        if(weapon>=attacks.size()):
-            weapon = 0
+        weapon %= attacks.size()
         ammo = maxAmmos[weapon]
         if(cooldown>maxCooldown[weapon]):
             cooldown = maxCooldown[weapon]
