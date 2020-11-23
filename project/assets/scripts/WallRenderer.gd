@@ -177,7 +177,6 @@ func scroll_new():
                 newwalls[x][y] = 1
             else:
                 newwalls[x][y] = oldwalls[x+ofs.x][y+ofs.y]
-                print("reached wtf")
                 
     walldiff = get_diff(walls,newwalls)
     recalc_prox()
