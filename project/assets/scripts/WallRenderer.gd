@@ -3,6 +3,7 @@ extends Node2D
 export (Texture) var texture setget _set_texture
 export (Array, PackedScene) var square_dust
 export (Array, AudioStream) var sounds
+export (Array, PackedScene) var enemies
 var walls : Array = [];
 var newwalls : Array = [];
 var walldiff : Array = [];
@@ -82,6 +83,10 @@ func gen_weapon(x_size, y_size, id):
                         w[x].append(0)
                     else:
                         w[x].append(1)
+            if not (w[x][-1] or randi()%35):
+                var enemy = enemies[randi()%enemies.size()].instance()
+                enemy.position = (Vector2(x + randf(), y + randf()) + $"../WallCollision".get_offset(walls)) * size
+                $"../..".add_child(enemy)
 
 
     for x in x_size:
