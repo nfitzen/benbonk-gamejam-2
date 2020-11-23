@@ -12,6 +12,7 @@ var active_attack = 0;
 export var speed = 75.0
 var direction = 0.0
 export var maxHealth = 4
+var health = maxHealth
 
 export var dashLength = 20.0
 export var dashSpeed = 250.0
@@ -45,7 +46,6 @@ func ready():
 func _process(delta):
     if(cooldown>0):
         cooldown -= delta
-        $"../Camera2D/HUD".update()
         if(cooldown<0): cooldown = 0.0
     if(ammo==0):
         $"../Walls/WallRenderer".init_swap()
@@ -56,7 +56,6 @@ func _process(delta):
         ammo = maxAmmos[weapon]
         if(cooldown>maxCooldown[weapon]):
             cooldown = maxCooldown[weapon]
-        $"../Camera2D/HUD".update()
     if(Input.is_action_just_pressed("ui_right")):
         print(position.y)
     if(Input.is_action_just_pressed("attack") && cooldown==0):
