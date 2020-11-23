@@ -1,9 +1,14 @@
 extends Area2D
 
 var num = 0
+export (Array, AudioStream) var swordSwipeSounds
+export (Array, AudioStream) var swordHitSounds
     
 func _ready():
     VisualServer.canvas_item_set_parent(get_canvas_item(), $"../".get_canvas_item())
+    $"SwipeSound".stream = swordSwipeSounds[randi()%swordSwipeSounds.size()]
+    $"SwipeSound".pitch_scale = 1.0+randf()*0.2
+    $"SwipeSound".playing = true
     connect("body_entered", self, "_on_Area2D_body_enter")
     VisualServer.canvas_item_set_z_index(get_canvas_item(), position.y)
     $"AnimatedSprite".playing = true
@@ -22,9 +27,12 @@ func _process(delta):
     if($"AnimatedSprite".frame==1):
         if(get_node_or_null("CollisionPolygon2D")!=null):
             $"CollisionPolygon2D".queue_free()
-    if($"AnimatedSprite".frame==4):
+    if($"SwipeSound".playing==false):
         queue_free()
         
 func _on_Area2D_body_enter(body):
     if body.is_in_group("enemy"):
+        $"HitSound".stream = swordHitSounds[randi()%swordHitSounds.size()]
+        $"HitSound".pitch_scale = 1.0+randf()*0.3
+        $"HitSound".playing = true
         body.take_hit(1, (body.position-position).normalized()*4+$"../Player".velocity/8)
