@@ -34,7 +34,7 @@ animations = [ {
 } ]
 
 [node name="SlashAttack" type="Area2D" groups=[
-"pause tier 0",
+"scrolling",
 ]]
 pause_mode = 2
 gravity_vec = Vector2( 0, 0 )
