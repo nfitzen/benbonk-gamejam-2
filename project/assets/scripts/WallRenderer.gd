@@ -35,7 +35,7 @@ func populate(x_size, y_size):
 func gen_canvas_items(y_size):
     for y in y_size:
         canvasFloors.append(VisualServer.canvas_item_create())
-        VisualServer.canvas_item_set_z_index(canvasFloors[y],(y-1-walls[0].size()/2)*z_multiplier+(textureSize.y-size-bottomBuffer))
+        VisualServer.canvas_item_set_z_index(canvasFloors[y],(y-1-walls[0].size()/2)*z_multiplier+(textureSize.y-size-bottomBuffer)+1)
         VisualServer.canvas_item_set_parent(canvasFloors[y], $"../../".get_canvas_item())
         print((y-walls[0].size()/2)*z_multiplier-(textureSize.y-size-bottomBuffer))
         canvasRows.append(VisualServer.canvas_item_create())
