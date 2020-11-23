@@ -131,10 +131,10 @@ func _process(delta):
     if(healthUpdate>0):
         $"Sprite".material = white_shader
         healthUpdate -= delta
-        if(healthUpdate<0): 
+        if(healthUpdate<0):
             healthUpdate = 0.0
             $"Sprite".material = null
-            
+
     if(cooldown>0):
         cooldown -= delta
         if(cooldown<0): cooldown = 0.0
