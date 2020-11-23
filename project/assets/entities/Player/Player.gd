@@ -6,19 +6,23 @@ extends KinematicBody2D
 
 signal player_attack(damage)
 export (Array, PackedScene) var attacks
+signal death
+signal health_update(health)
 
-var active_attack = 0;
+var active_attack = 0
+var maxNumAttack = 2
+var attackNum = 0
 
 export var speed = 75.0
 var direction = 0.0
 export var maxHealth = 4
 var health = maxHealth
 
+# Dashing
 export var dashLength = 20.0
 export var dashSpeed = 250.0
 export var dashCooldownAir = 1
 export var dashCooldownWall = 1
-
 var dashing = false
 var dashVector : Vector2
 var dashVelocity : Vector2
@@ -28,15 +32,13 @@ var pseudoPos : Vector2
 var dashDelta = 0.0
 var dashTime : float
 var remainingDashLen : float
-var dashDirection : Vector2
-var maxNumAttack = 2;
-var attackNum = 0;
-var dashCooldown = 0
+var dashTarget : Vector2
+var dashCooldown = 0.0
 
 # Weapons
-var weapon = 0;
+var weapon = 0
 var maxAmmos = [4,3]
-var ammo = 4;
+var ammo = 4
 var ammoUpdate = 0.0
 var healthUpdate = 0.0
 var maxCooldown = [0.3,0.6]
@@ -44,6 +46,17 @@ var cooldown = 0.0
 
 func ready():
     VisualServer.canvas_item_set_parent(get_canvas_item(), $"../".get_canvas_item())
+    health = maxHealth
+
+    dashing = false
+    dashCooldown = 0
+    dashVector = Vector2.ZERO
+    velocity = Vector2.ZERO
+    direction = 0
+
+    active_attack = 0
+    attackNum = 0
+
 
 func _process(delta):
     if(ammoUpdate>0):
@@ -77,7 +90,7 @@ func _process(delta):
         i.position = position+(get_global_mouse_position() - get_global_position()).normalized()*8
         i.num = attackNum
         $"../".add_child(i)
-    
+
     VisualServer.canvas_item_set_z_index(get_canvas_item(), position.y)
     #z_index = -position.y
     velocity = Vector2.ZERO
@@ -90,8 +103,11 @@ func _process(delta):
         if dashDelta < dashTime:
             move_and_slide(dashVelocity)
         elif get_slide_count() == 0 and remainingDashLen < 0:
-            print(remainingDashLen)
-            position = position + remainingDashLen * dashDirection
+            # print(remainingDashLen)
+            position = dashTarget
+            dashCooldown = dashCooldownAir
+            dashing = false
+        elif remainingDashLen == 0:
             dashCooldown = dashCooldownAir
             dashing = false
         else:
@@ -112,21 +128,25 @@ func _process(delta):
         velocity = velocity.normalized() * speed
         if velocity.length() > 0:
             direction = fposmod(round(rad2deg(-velocity.angle())/45),8)
-        move_and_slide(velocity)
+            move_and_slide(velocity)
     #     sprite.animation = "walk"+str(direction)
     # else:
     #     sprite.animation = "idle"+str(direction)
 
 func dash():
     dashing = true
-    dashDirection = (get_global_mouse_position() - get_global_position()).normalized()
+    var dashDirection = (get_global_mouse_position() - get_global_position()).normalized()
     dashVelocity = dashDirection * dashSpeed
-    dashVector = dashDirection * dashLength
+    dashTarget = position + dashDirection * dashLength
     dashTime = dashLength / dashSpeed
     dashDelta = 0.0
     remainingDashLen = dashLength
-    print(dashDirection, dashVelocity, dashVector)
-    print(dashTime)
-    
+    # print(dashDirection, dashVelocity, dashVector)
+    # print(dashTime)
+
 func _on_enemy_attack(damage):
     print("ouch owie")
+    health -= damage
+    if health <= 0:
+        emit_signal("death")
+    emit_signal("health_update",health)

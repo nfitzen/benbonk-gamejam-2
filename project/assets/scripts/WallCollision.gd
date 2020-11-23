@@ -30,7 +30,7 @@ func create_bodies(walls, wallproxs):
             else:
                 br.append(null)
         static_bodies.append(br)
-              
+
 func update_from_diff(walldiff, oldproxs, wallproxs, newwalls):
     # TODO: array growing logic?
     var offset = get_offset(walldiff)
@@ -47,5 +47,5 @@ func update_from_diff(walldiff, oldproxs, wallproxs, newwalls):
                 elif (newwalls[x][y]==1 && wallproxs[x][y]==2 && static_bodies[x][y]):
                     static_bodies[x][y].queue_free()
                     static_bodies[x][y] = null
-                
-                    
+
+
