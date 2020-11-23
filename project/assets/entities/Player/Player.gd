@@ -23,7 +23,7 @@ export var maxHealth = 4
 var health = maxHealth
 
 # Dashing
-export var dashLength = 20.0
+export var dashLength = 40.0
 export var dashSpeed = 250.0
 export var dashCooldownAir = 1
 export var dashCooldownWall = 1
@@ -45,7 +45,7 @@ var maxAmmos = [2,3,4]
 var ammo = 4
 var ammoUpdate = 0.0
 var healthUpdate = 0.0
-var maxCooldown = [0.3,0.6,0.4]
+var maxCooldown = [0.3,0.6,0.2]
 var cooldown = 0.0
 
 func is_melee(id):
@@ -188,4 +188,6 @@ func _on_enemy_attack(damage):
     healthUpdate = 0.3
     if health <= 0:
         emit_signal("death")
+        get_tree().quit()
     emit_signal("health_update",health)
+
