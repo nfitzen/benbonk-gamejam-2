@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://assets/entities/Player/SlashAttack.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/swipe particle sword.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://assets/sounds/swing_miss_1.wav" type="AudioStream" id=5]
 [ext_resource path="res://assets/sounds/swing_hit_0.wav" type="AudioStream" id=6]
 [ext_resource path="res://assets/sounds/swing_miss_2.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/entities/Particles/Hit FX.tscn" type="PackedScene" id=8]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 2 )
@@ -41,6 +42,7 @@ gravity = 0.0
 script = ExtResource( 1 )
 swordSwipeSounds = [ ExtResource( 3 ), ExtResource( 5 ), ExtResource( 7 ) ]
 swordHitSounds = [ ExtResource( 6 ), ExtResource( 4 ) ]
+hitFX = ExtResource( 8 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 build_mode = 1

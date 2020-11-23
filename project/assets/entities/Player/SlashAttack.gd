@@ -3,6 +3,7 @@ extends Area2D
 var num = 0
 export (Array, AudioStream) var swordSwipeSounds
 export (Array, AudioStream) var swordHitSounds
+export (PackedScene) var hitFX
     
 func _ready():
     VisualServer.canvas_item_set_parent(get_canvas_item(), $"../".get_canvas_item())
@@ -32,6 +33,14 @@ func _process(delta):
         
 func _on_Area2D_body_enter(body):
     if body.is_in_group("enemy"):
+        var i = hitFX.instance()
+        i.position = body.position
+        for child in i.get_children():
+            child.emitting = true
+            child.process_material.direction = Vector3((get_global_mouse_position()-get_global_position()).normalized().x,(get_global_mouse_position()-get_global_position()).normalized().y,0)
+        VisualServer.canvas_item_set_parent(i.get_canvas_item(), $"../".get_canvas_item())
+        VisualServer.canvas_item_set_z_index(i.get_canvas_item(), i.position.y+8)
+        $"../".add_child(i)
         $"HitSound".stream = swordHitSounds[randi()%swordHitSounds.size()]
         $"HitSound".pitch_scale = 1.0+randf()*0.3
         $"HitSound".playing = true
