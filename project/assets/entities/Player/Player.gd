@@ -37,6 +37,8 @@ var dashCooldown = 0
 var weapon = 0;
 var maxAmmos = [4,3]
 var ammo = 4;
+var ammoUpdate = 0.0
+var healthUpdate = 0.0
 var maxCooldown = [0.3,0.6]
 var cooldown = 0.0
 
@@ -44,6 +46,12 @@ func ready():
     VisualServer.canvas_item_set_parent(get_canvas_item(), $"../".get_canvas_item())
 
 func _process(delta):
+    if(ammoUpdate>0):
+        ammoUpdate -= delta
+        if(ammoUpdate<0): ammoUpdate = 0.0
+    if(healthUpdate>0):
+        healthUpdate -= delta
+        if(healthUpdate<0): healthUpdate = 0.0
     if(cooldown>0):
         cooldown -= delta
         if(cooldown<0): cooldown = 0.0
@@ -61,6 +69,7 @@ func _process(delta):
     if(Input.is_action_just_pressed("attack") && cooldown==0):
         attackNum += 1;
         ammo -= 1;
+        ammoUpdate = 0.2
         cooldown = maxCooldown[weapon]
         if(attackNum==maxNumAttack):
             attackNum = 0
