@@ -59,6 +59,36 @@ func get_diff(w,nw):
             d[x].append(nw[x][y]-w[x][y])
     return d
 
+func gen_weapon(x_size, y_size, id):
+    var w : Array = []
+    var wt : Array = []
+    var wp : Array = []
+    for x in x_size:
+        w.append([])
+        for y in y_size:
+            match id:
+                0:
+                    if((x>9&&x<17&&y>8&&y<15) && !(x==13&&y==12)):
+                        w[x].append(0)
+                    else:
+                        w[x].append(1)   
+                1:
+                    if(x>8&&x<18&&y>9&&y<14):
+                        w[x].append(0)
+                    else:
+                        w[x].append(1)
+            
+            
+    for x in x_size:
+        wt.append([])
+        for y in y_size:
+            wt[x].append(randi()%4)
+    for x in x_size:
+        wp.append([])
+        for y in y_size:
+            wp[x].append(0)
+    return [w,wt,wp]
+
 func gen_basic(x_size, y_size):
     var w : Array = []
     var wt : Array = []
@@ -119,24 +149,25 @@ func _process(delta):
         drawTime += delta
         drawHeight = -(cos(3.8*(drawTime/swapTime)-0.4)*0.5-0.5)*1.155-0.09
         #Screen shake
-        $"../../Camera2D".shakeMag += 0.15
-        if(drawTime>0.43):
-            #Screen shake
-            $"../../Camera2D".shakeMag = 5
-            for x in walls.size():
-                for y in walls[0].size():
-                    if(walldiff[x][y]==1 || (walldiff[x][y]==-1&&walls[x][y+1]==0&&newwalls[x][y+1]==0)):
-                        var i = square_dust[(walldiff[x][y]+1)/2].instance()
-                        i.position.x = (x-walls.size()/2)*textureSize.x
-                        i.position.y = (y-walls[0].size()/2)*textureSize.x+(textureSize.y-size-bottomBuffer)*((walldiff[x][y]-1)/(0-2))
-                        for child in i.get_children():
-                            child.emitting = true
-                        $"Particles".add_child(i)
-        if(drawTime>0.44):
-            for child in $"Particles".get_children():
-                for child2 in child.get_children():
-                    child2.emitting = false
+        #$"../../Camera2D".shakeMag += 0.15
+        #if(drawTime>0.43):
+        #    #Screen shake
+        #    $"../../Camera2D".shakeMag = 5
+        #    for x in walls.size():
+        #        for y in walls[0].size():
+        #            if(walldiff[x][y]!=0):
+        #                var i = square_dust[(walldiff[x][y]+1)/2].instance()
+        #                i.position.x = (x-walls.size()/2)*textureSize.x
+        #                i.position.y = (y-walls[0].size()/2)*textureSize.x+(textureSize.y-size-bottomBuffer)*((walldiff[x][y]-1)/(0-2))
+        #                for child in i.get_children():
+        #                    child.emitting = true
+        #                $"Particles".add_child(i)
+        #if(drawTime>0.44):
+        #    for child in $"Particles".get_children():
+        #        for child2 in child.get_children():
+        #            child2.emitting = false
         if(drawTime>=swapTime):
+            $"../../Camera2D".shakeMag = 6
             #Finish swap
             drawTime = 0.0
             #Draw particles
@@ -169,7 +200,7 @@ func _set_texture(value):
     update() # update the node
     
 func scroll_new():
-    var r = gen_basic(27,25)
+    var r = gen_weapon(27,25,$"../../Player".weapon)
     newwalls = r[0]
     var ofs : Vector2
     ofs.x=-floor(($"../../Player".position.x-$"../".position.x)/size)

@@ -1,7 +1,7 @@
 extends Camera2D
 
 const updateRate = 0.2
-const shakeDecay = 0.8
+const shakeDecay = 0.7
 const shakeThreshhold = 0.02
 var shakeMag = 0
 

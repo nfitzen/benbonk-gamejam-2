@@ -35,7 +35,7 @@ var dashCooldown = 0
 # Weapons
 var weapon = 0;
 var maxAmmos = [4,3]
-var ammo = 0;
+var ammo = 4;
 
 func ready():
     VisualServer.canvas_item_set_parent(get_canvas_item(), $"../".get_canvas_item())
