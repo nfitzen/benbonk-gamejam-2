@@ -4,6 +4,8 @@ export (Array, AudioStream) var bulletShootySounds
 export (Array, AudioStream) var bulletHitSounds
 export (PackedScene) var hitFX
 
+export var speed = 250
+
 var num # unused
 
 func _ready():
@@ -15,6 +17,9 @@ func _ready():
     VisualServer.canvas_item_set_z_index(get_canvas_item(), position.y)
     # $"AnimatedSprite".playing = true
     rotation = get_global_mouse_position().angle_to_point(get_global_position())
+    
+func _process(delta):
+    position += Vector2(speed, 0).rotated(rotation) * delta
     
 func _on_Area2D_body_enter(body):
     if body.is_in_group("enemy"):
@@ -30,4 +35,6 @@ func _on_Area2D_body_enter(body):
         #$"HitSound".pitch_scale = 0.7+randf()*0.1
         #$"HitSound".playing = true
         body.take_hit(1, (body.position-position).normalized()*100)
+        queue_free()
+    elif body.is_in_group("wall"):
         queue_free()
