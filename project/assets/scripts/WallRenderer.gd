@@ -35,7 +35,7 @@ func populate(x_size, y_size):
     walldiff = get_diff(walls,newwalls)
     recalc_prox()
     gen_canvas_items(y_size)
-    
+
 func gen_canvas_items(y_size):
     for y in y_size:
         canvasFloors.append(VisualServer.canvas_item_create())
@@ -49,7 +49,7 @@ func update_z_indices():
     for y in canvasFloors.size():
         VisualServer.canvas_item_set_z_index(canvasFloors[y],(y-1-walls[0].size()/2)*z_multiplier+(textureSize.y-size-bottomBuffer)+1+$"../".position.y)
         VisualServer.canvas_item_set_z_index(canvasRows[y],(y-walls[0].size()/2)*z_multiplier+(textureSize.y-size-bottomBuffer)+$"../".position.y)
-    
+
 
 func get_diff(w,nw):
     var d : Array = []
@@ -71,14 +71,14 @@ func gen_weapon(x_size, y_size, id):
                     if((x>9&&x<17&&y>8&&y<15) && !(x==13&&y==12)):
                         w[x].append(0)
                     else:
-                        w[x].append(1)   
+                        w[x].append(1)
                 1:
                     if(x>8&&x<18&&y>9&&y<14):
                         w[x].append(0)
                     else:
                         w[x].append(1)
-            
-            
+
+
     for x in x_size:
         wt.append([])
         for y in y_size:
@@ -144,7 +144,7 @@ func _process(delta):
         $"Sound".stream = sounds[randi()%sounds.size()]
         $"Sound".pitch_scale = 1.0+randf()*0.1
         $"Sound".playing = true
-        
+
     if(swapping):
         drawTime += delta
         drawHeight = -(cos(3.8*(drawTime/swapTime)-0.4)*0.5-0.5)*1.155-0.09
@@ -187,10 +187,10 @@ func _process(delta):
             recalc_prox()
             # TODO: add collision for walls the moment they move up, but still only remove it when they finish going down
             $"../WallCollision".update_from_diff(walldiff, oldproxs, wallproxs, walls)
-            
+
             swapping = false
             drawHeight = 0.0
-    
+
     update()
 
 func _set_texture(value):
@@ -198,7 +198,7 @@ func _set_texture(value):
     # this callback is called.
     texture = value #texture was changed
     update() # update the node
-    
+
 func scroll_new():
     var r = gen_weapon(27,25,$"../../Player".weapon)
     newwalls = r[0]
@@ -216,10 +216,10 @@ func scroll_new():
                 newwalls[x][y] = 1
             else:
                 newwalls[x][y] = oldwalls[x+ofs.x][y+ofs.y]
-                
+
     walldiff = get_diff(walls,newwalls)
     recalc_prox()
-    
+
 func scroll():
     var ofs : Vector2
     ofs.x=floor(($"../../Player".position.x-$"../".position.x)/size)
@@ -348,7 +348,7 @@ func draw_floor(x, y, screenrect, canv, alpha=1.0, use_z=false):
             else:
                 #Hopefully our walls are taller than 8px
                 texturerect1d.position.y-=textureSize.x*3
-        
+
         texture.draw_rect_region(canv, screenrect, texturerect1a, Color(1,1,1,alpha))
         screenrect.position.x+=textureSize.x/2
         texture.draw_rect_region(canv, screenrect, texturerect1b, Color(1,1,1,alpha))
@@ -388,7 +388,7 @@ func draw_floor(x, y, screenrect, canv, alpha=1.0, use_z=false):
                 var texturerect3 = Rect2(textureSize.x*9,textureSize.x*3,1,1)
                 var shadowcolor = Color(1.0,1.0,1.0,0.4)
                 texture.draw_rect_region(canv, screenrect, texturerect3, shadowcolor)
-                            
+
 func draw_wall(x, y, screenrect, canv, alpha=1.0):
     #z_index = (y-walls[0].size()/2)*z_multiplier+100
     if(alpha>1.0): alpha = 1.0
@@ -418,9 +418,9 @@ func draw_wall(x, y, screenrect, canv, alpha=1.0):
             texture.draw_rect_region(canv, screenrect, texturerect2b, Color(1,1,1,alpha))
             screenrect.position.x-=textureSize.x*0.5
         screenrect.size.x=textureSize.x
-    
-    
-    # THE TOP OF THE WALLS 
+
+
+    # THE TOP OF THE WALLS
     screenrect.position.y-=size
     if(wallproxs[x][y]==2):
         var texturerect1 = Rect2(walltypes[x][y]*size,size*(2-wallproxs[x][y]),textureSize.x,textureSize.x)
@@ -529,4 +529,4 @@ func _draw():
                     screenrect.position.y+=(textureSize.y-size-bottomBuffer)
                     drawHeight = 1-drawHeight
                     draw_wall(x,y,screenrect,canvasRows[y],1-drawHeight)
-            
+
