@@ -34,7 +34,7 @@ func ready():
 func _process(delta):
     if(Input.is_action_just_pressed("ui_right")):
         print(position.y)
-    if(Input.is_action_just_pressed("left")):
+    if(Input.is_action_just_pressed("attack")):
         print("thwick thwack")
         emit_signal("player_attack", 40)
         
