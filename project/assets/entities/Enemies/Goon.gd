@@ -10,16 +10,22 @@ export var attack_range = 25
 var attacking = false
 var attack_timer
 export var attack_speed = .8
+var kb = Vector2.ZERO
 
 # tim
 func _ready():
-    $"../Player".connect("player_attack", self, "_on_Player_player_attack")
     self.connect("attack", $"../Player", "_on_enemy_attack")
+    $"../Player".connect("player_attack", self, "_on_Player_player_attack")
     
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
     var target = $"../Player".position
-    if not attacking:
+    if kb.length_squared() > 0:
+        var step_kb = Vector2(min(kb.normalized().x, kb.x),
+                              min(kb.normalized().y, kb.y))
+        kb -= step_kb
+        position += step_kb
+    elif not attacking:
         if (target - position).length() > engage_range:
             move_and_slide(Vector2(-speed, 0).rotated(position.angle_to_point(target)))
         else:
@@ -34,11 +40,14 @@ func _process(delta):
                 rotate(2)
             attacking = false
 
-func _on_Player_player_attack(damage):
-    if $"../Player".active_attack.overlaps_body(self):
-        print("I am foiled")
-        health -= damage
-        if health <= 0:
-            queue_free()
-    else:
-        print("nice try fuckwad")
+func _on_Player_player_attack(bodies, damage, knockback):
+    if self in bodies:
+        take_hit(damage, knockback)
+
+func take_hit(damage, knockback):
+    health -= damage
+    if knockback:
+        attacking = false
+        kb = knockback
+    if health <= 0:
+        queue_free()

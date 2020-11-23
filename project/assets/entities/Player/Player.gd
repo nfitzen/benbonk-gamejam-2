@@ -40,7 +40,7 @@ func _process(delta):
     if(Input.is_action_just_pressed("ui_right")):
         print(position.y)
     if(Input.is_action_just_pressed("attack")):
-        emit_signal("player_attack", 40)
+        active_attack.attack()
     
     VisualServer.canvas_item_set_z_index(get_canvas_item(), position.y)
     #z_index = -position.y
