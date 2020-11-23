@@ -96,7 +96,7 @@ func recalc_prox():
 
 func _ready():
     populate(17,15);
-    $"../WallCollision".create_bodies(walls)
+    $"../WallCollision".create_bodies(walls, wallproxs)
 
 
 func _process(delta):
@@ -137,9 +137,15 @@ func _process(delta):
             newwalls = walls
             walls = s
             walldiff = get_diff(walls,newwalls)
-            # TODO: add collision for walls the moment they move up, but still only remove it when they finish going down
-            $"../WallCollision".update_from_diff(walldiff)
+            #DoinB remove array instancing hack?!!?!??! Chinese super server bracket exploit !!!
+            var oldproxs = []
+            for x in wallproxs.size():
+                oldproxs.append([])
+                for y in wallproxs[0].size():
+                    oldproxs[x].append(wallproxs[x][y])
             recalc_prox()
+            # TODO: add collision for walls the moment they move up, but still only remove it when they finish going down
+            $"../WallCollision".update_from_diff(walldiff, oldproxs, wallproxs, walls)
             swapping = false
             drawHeight = 0.0
     

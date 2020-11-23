@@ -20,18 +20,18 @@ func get_offset(walls):
     return Vector2(-walls.size()/2, 1-walls.size()/2)
 
 # Expects a 2D Boolean array
-func create_bodies(walls):
+func create_bodies(walls, wallproxs):
     var offset = get_offset(walls)
     for x in range(len(walls)):
         var br = []
         for y in range(len(walls[x])):
-            if walls[x][y]:
+            if (walls[x][y]==1 && wallproxs[x][y]<2):
                 br.append(create_body(x, y, offset))
             else:
                 br.append(null)
         static_bodies.append(br)
-                
-func update_from_diff(walldiff):
+              
+func update_from_diff(walldiff, oldproxs, wallproxs, newwalls):
     # TODO: array growing logic?
     var offset = get_offset(walldiff)
     for x in range(len(walldiff)):
@@ -41,3 +41,11 @@ func update_from_diff(walldiff):
                 static_bodies[x][y] = null
             elif walldiff[x][y] == -1 and not static_bodies[x][y]:
                 static_bodies[x][y] = create_body(x, y, offset)
+            else:
+                if (newwalls[x][y]==1 && walldiff[x][y]==0 && oldproxs[x][y]==2 && wallproxs[x][y]<2 && !static_bodies[x][y]):
+                    static_bodies[x][y] = create_body(x, y, offset)
+                elif (newwalls[x][y]==1 && walldiff[x][y]==0 && wallproxs[x][y]==2 && static_bodies[x][y]):
+                    static_bodies[x][y].queue_free()
+                    static_bodies[x][y] = null
+                
+                    
