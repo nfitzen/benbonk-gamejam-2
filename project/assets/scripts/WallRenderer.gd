@@ -41,6 +41,12 @@ func gen_canvas_items(y_size):
         VisualServer.canvas_item_set_z_index(canvasRows[y],(y-walls[0].size()/2)*z_multiplier+(textureSize.y-size-bottomBuffer))
         VisualServer.canvas_item_set_parent(canvasRows[y], $"../../".get_canvas_item())
 
+func update_z_indices():
+    for y in canvasFloors.size():
+        VisualServer.canvas_item_set_z_index(canvasFloors[y],(y-1-walls[0].size()/2)*z_multiplier+(textureSize.y-size-bottomBuffer)+1+$"../".position.y)
+        VisualServer.canvas_item_set_z_index(canvasRows[y],(y-walls[0].size()/2)*z_multiplier+(textureSize.y-size-bottomBuffer)+$"../".position.y)
+    
+
 func get_diff(w,nw):
     var d : Array = []
     for x in w.size():
@@ -219,6 +225,7 @@ func scroll():
             else:
                 walltypes[x][y] = walltypes[x+ofs.x][y+ofs.y]
     $"../".translate(ofs*size)
+    update_z_indices()
     recalc_prox()
 
 func draw_floor(x, y, screenrect, canv, alpha=1.0, use_z=false):
