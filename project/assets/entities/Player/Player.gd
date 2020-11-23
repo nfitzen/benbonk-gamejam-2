@@ -26,9 +26,15 @@ var dashDirection : Vector2
 
 var dashCooldown = 0
 
+func ready():
+    VisualServer.canvas_item_set_parent(get_canvas_item(), $"../".get_canvas_item())
 
 func _process(delta):
-    z_index = position.y
+    if(Input.is_action_just_pressed("ui_right")):
+        print(position.y)
+    
+    VisualServer.canvas_item_set_z_index(get_canvas_item(), position.y)
+    #z_index = -position.y
     velocity = Vector2.ZERO
     if dashCooldown > 0:
         dashCooldown -= delta
