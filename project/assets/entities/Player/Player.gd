@@ -44,6 +44,9 @@ var healthUpdate = 0.0
 var maxCooldown = [0.3,0.6]
 var cooldown = 0.0
 
+func is_melee(id):
+    return (id==0 || id==1)
+
 func ready():
     VisualServer.canvas_item_set_parent(get_canvas_item(), $"../".get_canvas_item())
     health = maxHealth
@@ -59,38 +62,8 @@ func ready():
 
 
 func _process(delta):
-    if(ammoUpdate>0):
-        ammoUpdate -= delta
-        if(ammoUpdate<0): ammoUpdate = 0.0
-    if(healthUpdate>0):
-        healthUpdate -= delta
-        if(healthUpdate<0): healthUpdate = 0.0
-    if(cooldown>0):
-        cooldown -= delta
-        if(cooldown<0): cooldown = 0.0
-    if(ammo==0):
-        $"../Walls/WallRenderer".init_swap()
-        $"../Pause Manager".pause(0.3)
-        weapon += 1;
-        if(weapon>=attacks.size()):
-            weapon = 0
-        ammo = maxAmmos[weapon]
-        if(cooldown>maxCooldown[weapon]):
-            cooldown = maxCooldown[weapon]
-    #if(Input.is_action_just_pressed("ui_right")):
-       # print(position.y)
-    if(Input.is_action_just_pressed("attack") && cooldown==0):
-        attackNum += 1;
-        ammo -= 1;
-        ammoUpdate = 0.2
-        cooldown = maxCooldown[weapon]
-        if(attackNum==maxNumAttack):
-            attackNum = 0
-        var i  = attacks[weapon].instance()
-        i.position = position+(get_global_mouse_position() - get_global_position()).normalized()*8
-        i.num = attackNum
-        $"../".add_child(i)
-
+    
+    
     VisualServer.canvas_item_set_z_index(get_canvas_item(), position.y)
     #z_index = -position.y
     velocity = Vector2.ZERO
@@ -127,11 +100,66 @@ func _process(delta):
                 dash()
         velocity = velocity.normalized() * speed
         if velocity.length() > 0:
-            direction = fposmod(round(rad2deg(-velocity.angle())/45),8)
+            if($"Sprite".animation.substr(1,1)!="A"):
+                direction = fposmod(round(rad2deg(-velocity.angle())/-45+135),8)
             move_and_slide(velocity)
     #     sprite.animation = "walk"+str(direction)
     # else:
-    #     sprite.animation = "idle"+str(direction)
+    #     sprite.animation = "idle"+str(direction) 
+    if(is_melee(weapon)):
+        if (velocity.length() > 0 and $"Sprite".animation.substr(0,2)!="MA"):
+            $"Sprite".animation = "MW"+str(direction)
+        elif($"Sprite".animation.substr(0,2)!="MA"):
+            $"Sprite".animation = "MI"+str(direction)
+        else:
+            if($"Sprite".frame==1):
+                $"Sprite".animation = "MI"+str(direction)
+    else:
+        if (velocity.length() > 0 and $"Sprite".animation.substr(0,2)!="RA"):
+            $"Sprite".animation = "RW"+str(direction)
+        elif($"Sprite".animation.substr(0,2)!="RA"):
+            $"Sprite".animation = "RI"+str(direction)
+        else:
+            if($"Sprite".frame==1):
+                $"Sprite".animation = "RI"+str(direction)
+    
+    if(ammoUpdate>0):
+        ammoUpdate -= delta
+        if(ammoUpdate<0): ammoUpdate = 0.0
+    if(healthUpdate>0):
+        healthUpdate -= delta
+        if(healthUpdate<0): healthUpdate = 0.0
+    if(cooldown>0):
+        cooldown -= delta
+        if(cooldown<0): cooldown = 0.0
+    if(ammo==0):
+        $"../Walls/WallRenderer".init_swap()
+        $"../Pause Manager".pause(0.3)
+        weapon += 1;
+        if(weapon>=attacks.size()):
+            weapon = 0
+        ammo = maxAmmos[weapon]
+        if(cooldown>maxCooldown[weapon]):
+            cooldown = maxCooldown[weapon]
+    #if(Input.is_action_just_pressed("ui_right")):
+       # print(position.y)
+    if(Input.is_action_just_pressed("attack") && cooldown==0):
+        direction = fposmod(round(rad2deg((get_global_mouse_position() - get_global_position()).angle())/45+135),8)
+        if(is_melee(weapon)):
+            $"Sprite".animation = "MA"+str(direction)
+        else:
+            $"Sprite".animation = "RA"+str(direction)
+        $"Sprite".frame = 0
+        attackNum += 1;
+        ammo -= 1;
+        ammoUpdate = 0.2
+        cooldown = maxCooldown[weapon]
+        if(attackNum==maxNumAttack):
+            attackNum = 0
+        var i  = attacks[weapon].instance()
+        i.position = position+(get_global_mouse_position() - get_global_position()).normalized()*8
+        i.num = attackNum
+        $"../".add_child(i)
 
 func dash():
     dashing = true

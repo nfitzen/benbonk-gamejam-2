@@ -26,7 +26,7 @@ func _draw():
         pos.x+=16
         screenrect = Rect2(pos, Vector2(16,16))
         if($"../Player".health<=i):
-            if($"../Player".ammoUpdate>0 && $"../Player".ammo==i):
+            if($"../Player".healthUpdate>0 && $"../Player".health==i):
                 texturerect = Rect2(48,0,16,16)
                 screenrect.position += Vector2(-1,1)
             else:
