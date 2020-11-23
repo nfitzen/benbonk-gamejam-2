@@ -36,22 +36,33 @@ var dashCooldown = 0
 var weapon = 0;
 var maxAmmos = [4,3]
 var ammo = 4;
+var maxCooldown = [0.3,0.6]
+var cooldown = 0.0
 
 func ready():
     VisualServer.canvas_item_set_parent(get_canvas_item(), $"../".get_canvas_item())
 
 func _process(delta):
+    if(cooldown>0):
+        cooldown -= delta
+        $"../Camera2D/HUD".update()
+        if(cooldown<0): cooldown = 0.0
     if(ammo==0):
         $"../Walls/WallRenderer".init_swap()
+        $"../Pause Manager".pause(0.3)
         weapon += 1;
         if(weapon>=attacks.size()):
             weapon = 0
         ammo = maxAmmos[weapon]
+        if(cooldown>maxCooldown[weapon]):
+            cooldown = maxCooldown[weapon]
+        $"../Camera2D/HUD".update()
     if(Input.is_action_just_pressed("ui_right")):
         print(position.y)
-    if(Input.is_action_just_pressed("attack")):
+    if(Input.is_action_just_pressed("attack") && cooldown==0):
         attackNum += 1;
         ammo -= 1;
+        cooldown = maxCooldown[weapon]
         if(attackNum==maxNumAttack):
             attackNum = 0
         var i  = attacks[weapon].instance()
