@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/sounds/wall game theme sword loop beat.wav" type="AudioStream" id=1]
+[ext_resource path="res://assets/sounds/wall game theme hammer loop beat.wav" type="AudioStream" id=2]
+[ext_resource path="res://assets/sounds/wall game theme gun loop beat.wav" type="AudioStream" id=3]
+[ext_resource path="res://assets/scripts/Music Handler.gd" type="Script" id=4]
+
+[node name="Music Handler" type="Node2D"]
+pause_mode = 2
+script = ExtResource( 4 )
+
+[node name="Sword Beat" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+volume_db = -6.0
+bus = "Beat0"
+
+[node name="Hammer Beat" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
+volume_db = -6.0
+bus = "Beat1"
+
+[node name="Gun Beat" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -6.0
+bus = "Beat2"

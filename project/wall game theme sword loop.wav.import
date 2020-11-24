@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/wall game theme sword loop.wav-ec521a7c5b61c9258dd0571c63cf1224.sample"
+
+[deps]
+
+source_file="res://wall game theme sword loop.wav"
+dest_files=[ "res://.import/wall game theme sword loop.wav-ec521a7c5b61c9258dd0571c63cf1224.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

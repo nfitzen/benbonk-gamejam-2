@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/wall game theme gun loop.wav-a4c84a8643e30072189b12e6e0173748.sample"
+
+[deps]
+
+source_file="res://wall game theme gun loop.wav"
+dest_files=[ "res://.import/wall game theme gun loop.wav-a4c84a8643e30072189b12e6e0173748.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,35 @@
+[gd_resource type="AudioBusLayout" load_steps=3 format=2]
+
+[sub_resource type="AudioEffectCompressor" id=1]
+resource_name = "Compressor"
+ratio = 1.4
+attack_us = 250.0
+release_ms = 500.0
+mix = 0.5
+
+[sub_resource type="AudioEffectLimiter" id=2]
+resource_name = "Limiter"
+
+[resource]
+bus/0/effect/0/effect = SubResource( 1 )
+bus/0/effect/0/enabled = true
+bus/0/effect/1/effect = SubResource( 2 )
+bus/0/effect/1/enabled = true
+bus/1/name = "Beat0"
+bus/1/solo = false
+bus/1/mute = true
+bus/1/bypass_fx = false
+bus/1/volume_db = 0.0
+bus/1/send = "Master"
+bus/2/name = "Beat1"
+bus/2/solo = false
+bus/2/mute = true
+bus/2/bypass_fx = false
+bus/2/volume_db = 0.0
+bus/2/send = "Master"
+bus/3/name = "Beat2"
+bus/3/solo = false
+bus/3/mute = true
+bus/3/bypass_fx = false
+bus/3/volume_db = 0.0
+bus/3/send = "Master"

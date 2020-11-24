@@ -42,7 +42,7 @@ var dashCooldown = 0.0
 # Weapons
 var weapon = 0
 var maxAmmos = [2,3,4]
-var ammo = 4
+var ammo = 2
 var ammoUpdate = 0.0
 var healthUpdate = 0.0
 var maxCooldown = [0.3,0.6,0.2]
@@ -144,6 +144,8 @@ func _process(delta):
         weapon += 1;
         if(weapon>=attacks.size()):
             weapon = 0
+        $"../Music Handler".update_buses(weapon)
+        $"../Music Handler".set_playing(true)
         ammo = maxAmmos[weapon]
         if(cooldown>maxCooldown[weapon]):
             cooldown = maxCooldown[weapon]

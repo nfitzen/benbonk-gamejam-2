@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pit's End", "Pit's End.csproj", "{3291396A-2AEC-4693-8CEE-5058686F936E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+	Debug|Any CPU = Debug|Any CPU
+	Release|Any CPU = Release|Any CPU
+	Tools|Any CPU = Tools|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3291396A-2AEC-4693-8CEE-5058686F936E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3291396A-2AEC-4693-8CEE-5058686F936E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3291396A-2AEC-4693-8CEE-5058686F936E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3291396A-2AEC-4693-8CEE-5058686F936E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3291396A-2AEC-4693-8CEE-5058686F936E}.Tools|Any CPU.ActiveCfg = Tools|Any CPU
+		{3291396A-2AEC-4693-8CEE-5058686F936E}.Tools|Any CPU.Build.0 = Tools|Any CPU
+	EndGlobalSection
+EndGlobal

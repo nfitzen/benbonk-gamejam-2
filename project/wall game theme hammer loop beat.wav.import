@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/wall game theme hammer loop beat.wav-2a952791054a75d16fdc68c51b4cd4af.sample"
+
+[deps]
+
+source_file="res://wall game theme hammer loop beat.wav"
+dest_files=[ "res://.import/wall game theme hammer loop beat.wav-2a952791054a75d16fdc68c51b4cd4af.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
