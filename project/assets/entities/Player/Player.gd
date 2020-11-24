@@ -23,7 +23,7 @@ export var maxHealth = 4
 var health = maxHealth
 
 # Dashing
-export var dashLength = 20.0
+export var dashLength = 40.0
 export var dashSpeed = 250.0
 export var dashCooldownAir = 1
 export var dashCooldownWall = 1
@@ -131,10 +131,10 @@ func _process(delta):
     if(healthUpdate>0):
         $"Sprite".material = white_shader
         healthUpdate -= delta
-        if(healthUpdate<0): 
+        if(healthUpdate<0):
             healthUpdate = 0.0
             $"Sprite".material = null
-            
+
     if(cooldown>0):
         cooldown -= delta
         if(cooldown<0): cooldown = 0.0
@@ -188,4 +188,6 @@ func _on_enemy_attack(damage):
     healthUpdate = 0.3
     if health <= 0:
         emit_signal("death")
+        get_tree().quit()
     emit_signal("health_update",health)
+

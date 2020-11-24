@@ -1,8 +1,12 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: BenBonk GameJam #2 Submission
+Upstream-Name: Pit's End
 Upstream-Contact: Nathaniel Fitzenrider <https://github.com/nfitzen>
 Source: https://github.com/nfitzen/benbonk-gamejam-2
-License: GPL-3.0-or-later
+License: GPL-3.0-only
+Comment: Creative Commons (via <https://creativecommons.org/compatiblelicenses>)
+    is designated as a proxy that can decide which future GPL versions can be
+    used for Pit's End.
+    See section 14 of the License for more information.
 
 # Sample paragraph, commented out:
 #
@@ -10,13 +14,36 @@ License: GPL-3.0-or-later
 # Copyright: $YEAR $NAME <$CONTACT>
 # License: ...
 
-Files: project/*
+Files: project/*.gd
+       project/*.tscn
+       project/*.import
+       project/*.tres
+       project/*.godot
 Copyright: 2020 Henry Schneider, Kai Hoop, Nathaniel Fitzenrider, and Austin Chang
 License: GPL-3.0-or-later
+
+Files: project/*.png
+       project/*.jpg
+       project/*.gif
+       project/*.ase
+       project/*.wav
+       project/*.material
+       project/*.stex
+Copyright: 2020 Henry Schneider, Kai Hoop, Nathaniel Fitzenrider, and Austin Chang
+License: CC-BY-SA-4.0
+
+Files: project/assets/sprites/benis.png project/assets/sprites/title.png
+Copyright: 2020 Henry Schneider, Kai Hoop, Nathaniel Fitzenrider, and Austin Chang
+License: CC0-1.0
+Comment: we really don't want you crediting us lmao
+
+# Godot generated stuff
 
 Files: project/icon.png
 Copyright: (C) Andrea Calabro
 License: CC-BY-3.0
+Comment: Godot Logo
+         <https://creativecommons.org/licenses/by/3.0/legalcode>
 
 Files: project/git_api.gdnlib project/git_api.gdns
 Copyright: 2016-2019 The Godot Engine community

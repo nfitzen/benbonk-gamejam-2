@@ -5,12 +5,11 @@
 [ext_resource path="res://assets/scripts/Camera2D.gd" type="Script" id=3]
 [ext_resource path="res://assets/entities/Enemies/Goon.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/entities/Pause Manager.tscn" type="PackedScene" id=5]
-[ext_resource path="res://assets/scenes/root.gd" type="Script" id=6]
+[ext_resource path="res://assets/scripts/OnRun.gd" type="Script" id=6]
 [ext_resource path="res://assets/scripts/HUD.gd" type="Script" id=7]
 [ext_resource path="res://assets/sprites/gui tileset.png" type="Texture" id=8]
 
 [node name="main" type="Node2D"]
-script = ExtResource( 6 )
 
 [node name="Pause Manager" parent="." instance=ExtResource( 5 )]
 
@@ -35,3 +34,6 @@ drag_margin_top = 0.0
 drag_margin_right = 0.0
 drag_margin_bottom = 0.0
 script = ExtResource( 3 )
+
+[node name="OnRun" type="Node" parent="."]
+script = ExtResource( 6 )
