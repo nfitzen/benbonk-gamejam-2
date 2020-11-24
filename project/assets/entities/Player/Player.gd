@@ -45,7 +45,7 @@ var maxAmmos = [2,3,4]
 var ammo = 4
 var ammoUpdate = 0.0
 var healthUpdate = 0.0
-var maxCooldown = [0.3,0.6,0.4]
+var maxCooldown = [0.3,0.6,0.2]
 var cooldown = 0.0
 
 func is_melee(id):
