@@ -89,7 +89,7 @@ func gen_weapon(x_size, y_size, id):
                         w[x].append(1)
             if not (w[x][-1] or randi()%35):
                 var enemy = enemies[randi()%enemies.size()].instance()
-                enemy.position = (Vector2(x + randf(), y + randf()) + $"../WallCollision".get_offset(walls)) * size
+                enemy.position = position + (Vector2(x + randf(), y + randf()) + $"../WallCollision".get_offset(walls)) * size
                 $"../..".add_child(enemy)
 
 
