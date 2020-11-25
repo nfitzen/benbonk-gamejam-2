@@ -1,3 +1,7 @@
+; SPDX-FileCopyrightText: 2020 Henry Schneider, Kai Hoop, Nathaniel Fitzenrider, and Austin Chang
+;
+; SPDX-License-Identifier: GPL-3.0-or-later
+;
 ; Engine configuration file.
 ; It's best edited using the editor UI and not directly,
 ; since the parameters that go here are not all obvious.

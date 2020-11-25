@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 Henry Schneider, Kai Hoop, Nathaniel Fitzenrider, and Austin Chang
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 extends Node2D
 
 export (Texture) var texture setget _set_texture

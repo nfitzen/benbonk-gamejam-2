@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 Henry Schneider, Kai Hoop, Nathaniel Fitzenrider, and Austin Chang
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 extends Node2D
 
 export (Texture) var texture
@@ -7,7 +11,7 @@ func _process(delta):
 
 func _draw():
     VisualServer.canvas_item_set_z_index(get_canvas_item(), 4096)
-    
+
     # Weapon draws
     var weapon = $"../Player".weapon
     var weaponAmt = int(($"../Player".cooldown/$"../Player".maxCooldown[weapon])*8)*3
@@ -19,7 +23,7 @@ func _draw():
     screenrect = Rect2(pos, Vector2(24,weaponAmt))
     texturerect = Rect2(weapon*24,80-weaponAmt,24,weaponAmt)
     texture.draw_rect_region(get_canvas_item(), screenrect, texturerect)
-    
+
     #Health + Ammo
     pos = Vector2(-124-8,-64)
     for i in $"../Player".maxHealth:
@@ -34,7 +38,7 @@ func _draw():
         else:
             texturerect = Rect2(0,0,16,16)
         texture.draw_rect_region(get_canvas_item(), screenrect, texturerect)
-    
+
     pos = Vector2(-120-8,-52)
     for i in $"../Player".maxAmmos[$"../Player".weapon]:
         pos.x+=16
@@ -48,5 +52,5 @@ func _draw():
         else:
             texturerect = Rect2(0,16,16,16)
         texture.draw_rect_region(get_canvas_item(), screenrect, texturerect)
-            
-    
+
+

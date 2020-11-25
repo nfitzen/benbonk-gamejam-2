@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 Henry Schneider, Kai Hoop, Nathaniel Fitzenrider, and Austin Chang
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 extends Area2D
 
 export (Array, AudioStream) var bulletShootySounds
@@ -28,11 +32,11 @@ func _ready():
     connect("body_entered", self, "_on_Area2D_body_enter")
     # $"AnimatedSprite".playing = true
     rotation = get_global_mouse_position().angle_to_point(get_global_position())
-    
+
 func _process(delta):
     VisualServer.canvas_item_set_z_index(get_canvas_item(), position.y)
     position += Vector2(speed, 0).rotated(rotation) * delta
-    
+
 func _on_Area2D_body_enter(body):
     if body.is_in_group("enemy"):
         var i = hitFX.instance()

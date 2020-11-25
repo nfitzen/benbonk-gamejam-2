@@ -1,10 +1,14 @@
+# SPDX-FileCopyrightText: 2020 Henry Schneider, Kai Hoop, Nathaniel Fitzenrider, and Austin Chang
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 extends Area2D
 
 var num = 0
 export (Array, AudioStream) var swordSwipeSounds
 export (Array, AudioStream) var swordHitSounds
 export (PackedScene) var hitFX
-    
+
 func _ready():
     VisualServer.canvas_item_set_parent(get_canvas_item(), $"../".get_canvas_item())
     $"SwipeSound".stream = swordSwipeSounds[randi()%swordSwipeSounds.size()]
@@ -19,18 +23,18 @@ func _ready():
     else:
         $"AnimatedSprite".rotation = 45
         $"AnimatedSprite".flip_h = true
-        
+
     #var bs = get_overlapping_bodies()
     rotation = get_global_mouse_position().angle_to_point(get_global_position())
     #$"..".emit_signal("player_attack", bs, 40, Vector2(20, 0).rotated(rotation))
-    
+
 func _process(delta):
     if($"AnimatedSprite".frame==1):
         if(get_node_or_null("CollisionPolygon2D")!=null):
             $"CollisionPolygon2D".queue_free()
     if($"SwipeSound".playing==false):
         queue_free()
-        
+
 func _on_Area2D_body_enter(body):
     if body.is_in_group("enemy"):
         var i = hitFX.instance()
