@@ -17,7 +17,7 @@ Files: project/*.gd
        project/*.tscn
        project/*.import
        project/*.tres
-       project/*.godot
+       project/project.godot
 Copyright: 2020 Henry Schneider, Kai Hoop, Nathaniel Fitzenrider, and Austin Chang
 License: GPL-3.0-or-later
 
@@ -25,6 +25,7 @@ Files: project/*.png
        project/*.jpg
        project/*.gif
        project/*.ase
+       project/*.aseprite
        project/*.wav
        project/*.material
        project/*.stex

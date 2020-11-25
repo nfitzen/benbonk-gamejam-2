@@ -24,12 +24,13 @@ that can decide which future GPL versions can be used for Pit's End.
 
 [section 14]: https://www.gnu.org/licenses/gpl-3.0.html#section14 "If the Program specifies that a proxy can decide which future versions of the GNU General Public License can be used, that proxy's public statement of acceptance of a version permanently authorizes you to choose that version for the Program."
 
-The code is licensed under [`GPL-3.0-or-later`].
+The code, which includes (but isn't limited to) scenes; scripts; and `import`,
+`tres`, and other metadata files, is licensed under [`GPL-3.0-or-later`].
 You can find a copy of the license at <https://gnu.org/licenses/gpl.html>.
 
-The assets are licensed under [`CC-BY-SA-4.0`].
+Assets, such as `png` or Aseprite files, are licensed under [`CC-BY-SA-4.0`].
 
-Additional information can also be found in individual files
+Additional information can be found in individual files
 or the [dep5 file](.reuse/dep5) if a license header isn't found.
 
 [`GPL-3.0-only`]: https://spdx.org/licenses/GPL-3.0-only.html "GNU General Public License v3.0 only"
