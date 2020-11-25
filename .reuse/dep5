@@ -4,9 +4,8 @@ Upstream-Contact: Nathaniel Fitzenrider <https://github.com/nfitzen>
 Source: https://github.com/nfitzen/benbonk-gamejam-2
 License: GPL-3.0-only
 Comment: Creative Commons (via <https://creativecommons.org/compatiblelicenses>)
-    is designated as a proxy that can decide which future GPL versions can be
-    used for Pit's End.
-    See section 14 of the License for more information.
+         is designated as a proxy, in accordance with section 14 of the GPLv3,
+         that can decide which future GPL versions can be used for Pit's End.
 
 # Sample paragraph, commented out:
 #

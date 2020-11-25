@@ -15,9 +15,8 @@ it under the terms of the GNU General Public License as published by
 the Free Software Foundation, version 3.
 
 Creative Commons (via <https://creativecommons.org/compatiblelicenses>)
-is designated as a proxy that can decide which future GPL versions can be used
-for Pit's End.
-See section 14 of the License for more information.
+is designated as a proxy, in accordance with section 14 of the GPLv3,
+that can decide which future GPL versions can be used for Pit's End.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -26,12 +25,6 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <https://www.gnu.org/licenses/>.
-
-Assets for this program are licensed under
-CC-BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0/legalcode>.
-
-Code for this program is distributed under the GNU General Public License,
-version 3 or later <https://gnu.org/licenses/gpl.html>.
 
 Source code can be found at <https://github.com/nfitzen/benbonk-gamejam-2>.
 
