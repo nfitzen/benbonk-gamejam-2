@@ -89,8 +89,9 @@ func gen_weapon(x_size, y_size, id):
                         w[x].append(1)
             if not (w[x][-1] or randi()%35):
                 var enemy = enemies[randi()%enemies.size()].instance()
-                enemy.position = position + (Vector2(x + randf(), y + randf()) + $"../WallCollision".get_offset(walls)) * size
+                enemy.position = position + (Vector2(x + randf()/2, y + randf()/2) + $"../WallCollision".get_offset(walldiff) + scroll_offset()) * size
                 $"../..".add_child(enemy)
+                print(enemy.global_position)
 
 
     for x in x_size:
@@ -213,12 +214,14 @@ func _set_texture(value):
     texture = value #texture was changed
     update() # update the node
 
+func scroll_offset():
+    return Vector2(-floor(($"../../Player".position.x-$"../".position.x)/size),
+                   -floor(($"../../Player".position.y-$"../".position.y)/size))
+
 func scroll_new():
     var r = gen_weapon(27,25,$"../../Player".weapon)
     newwalls = r[0]
-    var ofs : Vector2
-    ofs.x=-floor(($"../../Player".position.x-$"../".position.x)/size)
-    ofs.y=-floor(($"../../Player".position.y-$"../".position.y)/size)
+    var ofs = scroll_offset()
     var oldwalls = []
     for x in newwalls.size():
         oldwalls.append([])

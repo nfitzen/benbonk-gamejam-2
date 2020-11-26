@@ -18,6 +18,7 @@ func create_body(x, y, offset):
     body.position += (Vector2(x, y) + offset) * size
     body.position.y += wall_base_offset
     add_child(body)
+    # print(body.global_position)
     return body
 
 func get_offset(walls):
