@@ -87,13 +87,6 @@ func gen_weapon(x_size, y_size, id):
                         w[x].append(0)
                     else:
                         w[x].append(1)
-            if not (w[x][-1] or randi()%35):
-                var enemy = enemies[randi()%enemies.size()].instance()
-                enemy.position = position + (Vector2(x + randf()/2, y + randf()/2) + $"../WallCollision".get_offset(walldiff) + scroll_offset()) * size
-                $"../..".add_child(enemy)
-                print(enemy.global_position)
-
-
     for x in x_size:
         wt.append([])
         for y in y_size:
@@ -103,6 +96,12 @@ func gen_weapon(x_size, y_size, id):
         for y in y_size:
             wp[x].append(0)
     return [w,wt,wp]
+
+func spawn_enemy_at(gpos):
+    var enemy = enemies[randi()%enemies.size()].instance()
+    enemy.global_position = gpos
+    $"../..".add_child(enemy)
+    return enemy
 
 func gen_basic(x_size, y_size):
     var w : Array = []

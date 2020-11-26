@@ -20,6 +20,13 @@ func create_body(x, y, offset):
     add_child(body)
     # print(body.global_position)
     return body
+    
+func remove_body(x, y):
+    if randi() % 20 == 0:
+        $"../WallRenderer".spawn_enemy_at(static_bodies[x][y].global_position)
+    static_bodies[x][y].queue_free()
+    static_bodies[x][y] = null
+    
 
 func get_offset(walls):
     return Vector2(-walls.size()/2, 1-walls.size()/2)
@@ -37,20 +44,17 @@ func create_bodies(walls, wallproxs):
         static_bodies.append(br)
 
 func update_from_diff(walldiff, oldproxs, wallproxs, newwalls):
-    # TODO: array growing logic?
     var offset = get_offset(walldiff)
     for x in range(len(walldiff)):
         for y in range(len(walldiff[x])):
             if walldiff[x][y] == 1 and static_bodies[x][y]:
-                static_bodies[x][y].queue_free()
-                static_bodies[x][y] = null
+                remove_body(x,y)
             elif walldiff[x][y] == -1 and not static_bodies[x][y]:
                 static_bodies[x][y] = create_body(x, y, offset)
             else:
                 if (newwalls[x][y]==1 && wallproxs[x][y]<2 && !static_bodies[x][y]):
                     static_bodies[x][y] = create_body(x, y, offset)
                 elif (newwalls[x][y]==1 && wallproxs[x][y]==2 && static_bodies[x][y]):
-                    static_bodies[x][y].queue_free()
-                    static_bodies[x][y] = null
+                    remove_body(x,y)
 
 
