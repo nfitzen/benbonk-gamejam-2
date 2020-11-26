@@ -19,6 +19,7 @@ var attack_timer
 export var attack_speed = .8
 var kb = Vector2.ZERO
 export var kb_speed = 85
+var deltaPos : Vector2 = Vector2(0,0)
 
 # tim
 func _ready():
@@ -31,27 +32,42 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+    print($"Sprite".frame)
     VisualServer.canvas_item_set_z_index(get_canvas_item(), position.y)
     var target = $"../Player".position
 
     #Hit stun effect
-    if($"Sprite".animation.substr(1,3) == "hit" && $"Sprite".frame == 0):
-        #$"Sprite".material = white_shader
+    if($"Sprite".animation.substr(0,3) == "hit" && $"Sprite".frame == 0):
         pass
+        #$"Sprite".animation = "hit"+str(fposmod(round(rad2deg(-deltaPos.angle())/-45+135),8))
     else:
         $"Sprite".material = null
+        #print($"Sprite".animation.substr(0,6))
+        if(attacking || ($"Sprite".animation.substr(0,6) == "attack" && $"Sprite".frame >= 1 && $"Sprite".frame <= 2)):
+            $"Sprite".animation = "attack"+str(fposmod(round(rad2deg(-deltaPos.angle())/-45+135),8))
+        else:
+            $"Sprite".animation = "walk"+str(fposmod(round(rad2deg(-deltaPos.angle())/-45+135),8))
     if kb.length_squared() > 0:
         var step_kb = Vector2(min(kb.normalized().x * kb_speed, kb.x),
                               min(kb.normalized().y * kb_speed, kb.y))
         kb -= step_kb
+        deltaPos = step_kb
         move_and_slide(step_kb)
     elif not attacking:
         if (target - position).length() > engage_range:
-            move_and_slide(Vector2(-speed, 0).rotated(position.angle_to_point(target)))
+            deltaPos = Vector2(-speed, 0).rotated(position.angle_to_point(target))
+            move_and_slide(deltaPos)
+            
         else:
             attacking = true
             attack_timer = 0
+            if($"Sprite".frame==2): $"Sprite".frame = 1
+            if($"Sprite".frame==3): $"Sprite".frame = 0
     else:
+        if($"Sprite".frame==3): $"Sprite".frame = 0
+        if (target - position).length() > engage_range*2:
+            attacking = false
+            
         attack_timer += delta
         if attack_timer >= attack_speed:
             #rotate(2)
@@ -68,7 +84,7 @@ func take_hit(damage, knockback):
     $"../Pause Manager".pause(0.1)
     $"Sprite".frame = 0
     $"Sprite".material = white_shader
-    $"Sprite".animation = "hit0"
+    $"Sprite".animation = "hit"+str(fposmod(round(rad2deg(-deltaPos.angle())/-45+90+(randi()%2*45)),8))
     health -= damage
     #print(knockback)
     if knockback:
