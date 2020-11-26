@@ -147,8 +147,7 @@ func _process(delta):
         $"../Music Handler".update_buses(weapon)
         $"../Music Handler".set_playing(true)
         ammo = maxAmmos[weapon]
-        if(cooldown>maxCooldown[weapon]):
-            cooldown = maxCooldown[weapon]
+        cooldown = maxCooldown[weapon]
     #if(Input.is_action_just_pressed("ui_right")):
        # print(position.y)
     if(Input.is_action_just_pressed("attack") && cooldown==0):
