@@ -61,10 +61,14 @@ func _process(delta):
         else:
             attacking = true
             attack_timer = 0
-            if($"Sprite".frame==2): $"Sprite".frame = 1
-            if($"Sprite".frame==3): $"Sprite".frame = 0
+            if($"Sprite".frame==3): 
+                $"Sprite".frame = 1
     else:
-        if($"Sprite".frame==3): $"Sprite".frame = 0
+        if($"Sprite".frame==3): 
+            if($"Sprite".animation.substr(0,6)=="attack"): 
+                $"Sprite".frame = 1
+            else:
+                $"Sprite".frame = 0
         if (target - position).length() > engage_range*2:
             attacking = false
             
@@ -74,6 +78,7 @@ func _process(delta):
             if (target - position).length() < attack_range:
                 emit_signal("attack", 1)
                 #rotate(2)
+                pass
             attacking = false
 
 func _on_Player_player_attack(bodies, damage, knockback):
