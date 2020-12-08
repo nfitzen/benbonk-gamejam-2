@@ -15,8 +15,8 @@ it under the terms of the GNU General Public License as published by
 the Free Software Foundation, version 3.
 
 Creative Commons (via <https://creativecommons.org/compatiblelicenses>)
-is designated as a proxy, in accordance with section 14 of the GPLv3,
-that can decide which future GPL versions can be used for Pit's End.
+is designated as a proxy that can decide which future GPL versions can be used
+for Pit's End. See section 14 of the GPLv3 for more information.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -30,7 +30,7 @@ Source code can be found at <https://github.com/nfitzen/benbonk-gamejam-2>.
 
 The program icon is licensed separately:
 
-Godot Logo (C) Andrea Calabró
+Godot Logo (C) Andrea Calabro
 Distributed under the terms of the Creative Commons Attribution License
 version 3.0 (CC-BY 3.0) <https://creativecommons.org/licenses/by/3.0/legalcode>.
 """)
